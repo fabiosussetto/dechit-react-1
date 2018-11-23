@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import { fetchTransactions } from './state'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
-import TransactionCard from './TransactionCard'
+import TransactionList from './TransactionList'
 
 
 class App extends Component {
 
   state = {
     title: 'My Bank Account',
-    transactions: []    
+    transactions: []
   }
 
   fetchData = () => {
-    axios.get('https://my.api.mockaroo.com/transactions?key=f02d0440')
+    fetchTransactions()
       .then((resp) => {
         this.setState({
           transactions: resp.data
@@ -64,33 +65,19 @@ class App extends Component {
 
   render() {
     const { title, transactions } = this.state
-  
-    const listElements = transactions.map((transaction) => (
-      <TransactionCard 
-        transaction={transaction} 
-        onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
-        key={transaction.id} 
-      />
-    ))
+    
+    const callbacks = {
+      onIncrementAmount: this.incrementAmount,
+      onAddTransaction: this.addTransaction,
+      onClearTransactions: this.clearTransactions
+    }
 
     return (
-      <div className="container">
-        <h1>{title}</h1>
-        <div>
-          {listElements}
-        </div>
-        <div className="btn-group">
-          <button className="btn btn-primary" onClick={this.addTransaction}>
-            Add
-          </button>
-          <button className="btn btn-secondary" onClick={this.clearTransactions}>
-            Remove all
-          </button>
-          <button className="btn btn-secondary" onClick={this.addTransaction}>
-            Update title
-          </button>
-        </div>
-      </div>
+      <TransactionList 
+        transactions={transactions} 
+        title={title} 
+        callbacks={callbacks}
+      />
     )
   }
   

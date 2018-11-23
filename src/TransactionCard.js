@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class TransactionCard extends Component {
+// Es. di "functional component"
 
-  render() {
-    const { transaction, onIncrementAmount } = this.props
+const TransactionCard = (props) => {
+    const { transaction, onIncrementAmount } = props
 
     return (
         <div className="card p-2 mb-2">
@@ -20,5 +20,6 @@ export default class TransactionCard extends Component {
             </div>
         </div>
     )
-  }
 }
+
+export default TransactionCard
