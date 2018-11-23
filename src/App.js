@@ -1,28 +1,63 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
+import TransactionCard from './TransactionCard'
+
+
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+  state = {
+    transactions: [
+      {
+        id: 1,
+        title: 'pay rent',
+        amount: 100
+      },
+      {
+        id: 2,
+        title: 'holidays',
+        amount: 250
+      },
+      {
+        id: 3,
+        title: 'groceries',
+        amount: 10
+      }
+    ]    
   }
+
+  clearTransactions = () => {
+    this.setState({
+      transactions: []
+    })
+  }
+
+  // addTransactions = () => {
+  //   this.setState({
+  //     transactions: this.state.transactions.push({...})
+  //   })
+  // }
+
+  render() {
+  
+    const listElements = this.state.transactions.map((transaction) => (
+      <TransactionCard transaction={transaction} key={transaction.id} />
+    ))
+
+    return (
+      <div>
+        <h1>{this.state.title}</h1>
+        <div>
+          {listElements}
+        </div>
+        <button className="btn btn-secondary" onClick={this.clearTransactions}>
+          Remove all
+        </button>
+      </div>
+    )
+  }
+  
 }
 
 export default App;
