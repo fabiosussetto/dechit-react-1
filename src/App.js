@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
@@ -8,23 +9,21 @@ import TransactionCard from './TransactionCard'
 class App extends Component {
 
   state = {
-    transactions: [
-      {
-        id: 1,
-        title: 'pay rent',
-        amount: 100
-      },
-      {
-        id: 2,
-        title: 'holidays',
-        amount: 250
-      },
-      {
-        id: 3,
-        title: 'groceries',
-        amount: 10
-      }
-    ]    
+    title: 'My Bank Account',
+    transactions: []    
+  }
+
+  fetchData = () => {
+    axios.get('https://my.api.mockaroo.com/transactions?key=f02d0440')
+      .then((resp) => {
+        this.setState({
+          transactions: resp.data
+        })
+      })
+  }
+
+  componentWillMount () {
+    this.fetchData()
   }
 
   clearTransactions = () => {
@@ -33,27 +32,64 @@ class App extends Component {
     })
   }
 
-  // addTransactions = () => {
-  //   this.setState({
-  //     transactions: this.state.transactions.push({...})
-  //   })
-  // }
+  updateTitle = () => {
+    this.setState({
+      title: `Updated title ${Date.now()}`
+    })
+  }
+
+  incrementAmount = (transactionId) => {
+    const { transactions } = this.state
+    
+    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
+    const txToUpdate = transactions[txIndex]
+    
+    const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
+
+    const newTransactions = [...transactions]
+    newTransactions[txIndex] = incrementedTx
+
+    this.setState({
+      transactions: newTransactions
+    })
+  }
+
+  addTransaction = () => {
+    const newTransaction = { id: Date.now(), amount: 400, title: 'asdasd' }
+
+    this.setState({
+      transactions: [...this.state.transactions, newTransaction]
+    })
+  }
 
   render() {
+    const { title, transactions } = this.state
   
-    const listElements = this.state.transactions.map((transaction) => (
-      <TransactionCard transaction={transaction} key={transaction.id} />
+    const listElements = transactions.map((transaction) => (
+      <TransactionCard 
+        transaction={transaction} 
+        onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
+        key={transaction.id} 
+      />
     ))
 
     return (
-      <div>
-        <h1>{this.state.title}</h1>
+      <div className="container">
+        <h1>{title}</h1>
         <div>
           {listElements}
         </div>
-        <button className="btn btn-secondary" onClick={this.clearTransactions}>
-          Remove all
-        </button>
+        <div className="btn-group">
+          <button className="btn btn-primary" onClick={this.addTransaction}>
+            Add
+          </button>
+          <button className="btn btn-secondary" onClick={this.clearTransactions}>
+            Remove all
+          </button>
+          <button className="btn btn-secondary" onClick={this.addTransaction}>
+            Update title
+          </button>
+        </div>
       </div>
     )
   }
