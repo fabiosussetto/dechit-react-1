@@ -12,6 +12,7 @@ class App extends Component {
     title: 'My Bank Account',
     currency: '€', // &eur; !!!
     transactions: [],
+    filterAmount: null
   }
 
   fetchData = () => {
@@ -55,16 +56,21 @@ class App extends Component {
     })
   }
 
-  isExpansive = (transaction) => {
-    const isExpansive = transaction.amount > 50 // --> deve diventare "num"
-    return isExpansive;
-  }
+  // isExpansive = (transaction) => {
+  //   const isExpansive = transaction.amount > 50 // --> deve diventare "num"
+  //   return isExpansive;
+  // }
 
-  filterResults = (num) => {
-    // come passo num? bind?
-    const filteredTransactions = this.state.transactions.filter(this.isExpansive);
+  // filterResults = (num) => {
+  //   // come passo num? bind?
+  //   const filteredTransactions = this.state.transactions.filter(this.isExpansive);
+  //   this.setState({
+  //     transactions: filteredTransactions
+  //   })
+  // }
+  onSearch = (filterAmount) => {
     this.setState({
-      transactions: filteredTransactions
+      filterAmount: filterAmount
     })
   }
 
@@ -75,11 +81,24 @@ class App extends Component {
     })
   }
 
+  getTransactionsToDisplay () {
+    const { filterAmount, transactions } = this.state
+    if (!filterAmount) {
+      // Non c'e' nessun filtro settato, restituisco la lista completa
+      return transactions
+    }
+
+    // l'utente sta filtrando, restutuisco solo le transazioni "expensive"
+    return transactions.filter(transaction => transaction.amount > filterAmount)
+  }
+
   render() {
-    const { title, transactions, currency } = this.state
+    const { title, currency } = this.state
+    // N.B.: transactions non viene piu' letto direttamente dallo stato
+    const transactions = this.getTransactionsToDisplay()
 
     const callbacks = {
-      filterResults: this.filterResults,
+      onSearch: this.onSearch,
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
       onClearTransactions: this.clearTransactions

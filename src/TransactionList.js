@@ -21,7 +21,9 @@ class TransactionList extends Component {
         <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
           <a className="navbar-brand" href="#">{title}</a>
           <ul className="navbar-nav mr-auto"> {/* empty, for now */}</ul>
-          <SearchBar filterResults={callbacks.filterResults} />
+          <SearchBar 
+            onSubmit={callbacks.onSearch}
+          />
         </nav>
         <div className="container pt-2">
           <div>
