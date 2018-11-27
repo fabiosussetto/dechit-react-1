@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TransactionCard from './TransactionCard'
-// import SearchBar from './SearchBar' //TODO: enable when start to work on it :)
+import SearchBar from './SearchBar'
 
 class TransactionList extends Component {
 
@@ -18,7 +18,8 @@ class TransactionList extends Component {
     return (
       <div className="container">
         <h1>{title}</h1>
-        {/*<SearchBar /> //TODO: enable when start to work on it :) */}
+        <SearchBar
+          filterResults={callbacks.filterResults} />
         <div>
           {listElements}
         </div>

@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 
-class SearchBar extends Component {
+class SearchBar extends React.Component {
 
-  render() {
-    /* TODO homeworks part two! */
-    return (
-      <form>
-        <label>
-          <input type="text" amount="amount" />
-        </label>
-        <input className="btn btn-success" type="submit" value="Submit" />
-      </form>
-    )
+  state = {value: 40};
+
+  handleChange = this.handleChange.bind(this);
+  handleSubmit = this.handleSubmit.bind(this);
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
+  handleSubmit(event) {
+    this.props.filterResults(this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    const { filterResults } = this.props
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
 }
 
 export default SearchBar;

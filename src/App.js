@@ -54,9 +54,21 @@ class App extends Component {
     })
   }
 
-  addTransaction = () => {
-    const newTransaction = { id: Date.now(), amount: 400, title: 'asdasd' }
+  isExpansive = (transaction) => {
+    const isExpansive = transaction.amount > 50 // --> deve diventare "num"
+    return isExpansive;
+  }
 
+  filterResults = (num) => {
+    // come passo num? bind?
+    const filteredTransactions = this.state.transactions.filter(this.isExpansive);
+    this.setState({
+      transactions: filteredTransactions
+    })
+  }
+
+  addTransaction = () => {
+    const newTransaction = { id: Date.now(), amount: 400, title: 'Foo', descriptions: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt' }
     this.setState({
       transactions: [...this.state.transactions, newTransaction]
     })
@@ -66,6 +78,7 @@ class App extends Component {
     const { title, transactions } = this.state
 
     const callbacks = {
+      filterResults: this.filterResults,
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
       onClearTransactions: this.clearTransactions
