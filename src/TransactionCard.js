@@ -34,7 +34,7 @@ class TransactionCard extends Component {
         <div className="d-flex">
           <div>
               <h5 className="card-title">
-                <span class="badge badge-pill badge-info mr-2">
+                <span className="badge badge-pill badge-info mr-2">
                   {currency} {transaction.amount}
                 </span>
                 {transaction.title}

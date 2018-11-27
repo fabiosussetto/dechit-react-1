@@ -34,3 +34,8 @@
 .c-pointer {
  cursor: pointer;
 }
+
+.c-filter-input {
+  width: auto;
+  max-width: 70px;
+}

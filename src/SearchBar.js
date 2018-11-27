@@ -20,10 +20,8 @@ class SearchBar extends React.Component {
     const { filterResults } = this.props
     return (
       <form onSubmit={this.handleSubmit} className="form-inline">
-        <label>
-          <input type="text" value={this.state.value} onChange={this.handleChange} className="form-control mr-2 mb-2" />
-        </label>
-        <input type="submit" value="Filter" className="btn btn-success btn-outline-success mb-2" />
+        <input type="num" value={this.state.value} onChange={this.handleChange} className="c-filter-input form-control mr-2" />
+        <input type="submit" value="Filter" className="btn btn-success btn-outline-success" />
       </form>
     );
   }
