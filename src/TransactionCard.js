@@ -1,25 +1,55 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-// Es. di "functional component"
+// ho trasformato il "functional component" perchè ho bisogno di gestire lo stato dell'oggetto sigolo, indipendentemente dai dati transaction che gli arrivano
 
-const TransactionCard = (props) => {
-    const { transaction, onIncrementAmount } = props
+class TransactionCard extends Component {
 
-    return (
-        <div className="card p-2 mb-2">
-            <div className="d-flex">
-                <div>
-                    <h5 className="card-title">{transaction.title}</h5>
-                    <p className="card-text">
-                        Amount: {transaction.amount}
-                    </p>
-                </div>
-                <div className="ml-auto">
-                    <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
-                </div>
-            </div>
+  state = {
+    visibility: false,
+  }
+
+  toggleCollapse = () => {
+    const newVisibility = this.state.visibility ? false : true;
+    this.setState({
+      visibility: newVisibility
+    })
+  }
+
+  // renderizzo il body della card del dettaglio solo se ho la condizione corretta
+  detailsCard = (transaction,visibility) => {
+    if( visibility ) {
+      return (
+        <div className="card-body">
+          <p className="card-text">Descriptions: {transaction.descriptions}</p>
         </div>
+      );
+    }
+  }
+
+  render() {
+    const { transaction, onIncrementAmount } = this.props
+    const { visibility } = this.state
+    return (
+      <div className="card p-2 mb-2">
+        <div className="d-flex">
+          <div>
+              <h5 className="card-title">{transaction.title}</h5>
+              <p className="card-text">
+                Amount: {transaction.amount}
+              </p>
+          </div>
+          <div className="ml-auto">
+            <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
+          </div>
+        </div>
+        <div className="card mt-2">
+          <div className="card-header c-pointer" onClick={this.toggleCollapse}> Details </div>
+          {this.detailsCard(transaction,visibility)}
+        </div>
+      </div>
     )
+  }
+
 }
 
-export default TransactionCard
+export default TransactionCard;

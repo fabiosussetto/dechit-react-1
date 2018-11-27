@@ -6,12 +6,11 @@ import './App.css';
 
 import TransactionList from './TransactionList'
 
-
 class App extends Component {
 
   state = {
     title: 'My Bank Account',
-    transactions: []
+    transactions: [],
   }
 
   fetchData = () => {
@@ -41,10 +40,10 @@ class App extends Component {
 
   incrementAmount = (transactionId) => {
     const { transactions } = this.state
-    
+
     const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
     const txToUpdate = transactions[txIndex]
-    
+
     const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
 
     const newTransactions = [...transactions]
@@ -65,7 +64,7 @@ class App extends Component {
 
   render() {
     const { title, transactions } = this.state
-    
+
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
@@ -73,14 +72,14 @@ class App extends Component {
     }
 
     return (
-      <TransactionList 
-        transactions={transactions} 
-        title={title} 
+      <TransactionList
+        transactions={transactions}
+        title={title}
         callbacks={callbacks}
       />
     )
   }
-  
+
 }
 
 export default App;

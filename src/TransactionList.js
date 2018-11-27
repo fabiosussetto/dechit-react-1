@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import TransactionCard from './TransactionCard'
+// import SearchBar from './SearchBar' //TODO: enable when start to work on it :)
 
 class TransactionList extends Component {
 
   render() {
     const { title, transactions, callbacks } = this.props
-  
+
     const listElements = transactions.map((transaction) => (
-      <TransactionCard 
-        transaction={transaction} 
+      <TransactionCard
+        transaction={transaction}
         onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
-        key={transaction.id} 
+        key={transaction.id}
       />
     ))
 
     return (
       <div className="container">
         <h1>{title}</h1>
+        {/*<SearchBar /> //TODO: enable when start to work on it :) */}
         <div>
           {listElements}
         </div>
@@ -31,7 +33,7 @@ class TransactionList extends Component {
       </div>
     )
   }
-  
+
 }
 
 export default TransactionList;
