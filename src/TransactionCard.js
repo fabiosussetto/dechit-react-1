@@ -1,25 +1,43 @@
-import React from 'react'
+import React, { Component } from 'react'
+import ExpandCollapse from './ExpandCollapse';
 
-// Es. di "functional component"
+class TransactionCard extends Component {
+    state = {
+        isHidden: true,
+        text: 'Expand',
+    }
+    
+    toggleHidden() {
+        let textExpandCollapse = this.state.text;
+        if(textExpandCollapse==='Expand') {
+            textExpandCollapse = 'Collapse'
+        } else if(textExpandCollapse==='Collapse') {
+            textExpandCollapse = 'Expand'
+        }
+        this.setState({
+            isHidden: !this.state.isHidden,
+            text: textExpandCollapse
+        })
+    }
 
-const TransactionCard = (props) => {
-    const { transaction, onIncrementAmount } = props
-
-    return (
-        <div className="card p-2 mb-2">
-            <div className="d-flex">
-                <div>
-                    <h5 className="card-title">{transaction.title}</h5>
-                    <p className="card-text">
-                        Amount: {transaction.amount}
-                    </p>
+    render() {
+        const { transaction, onIncrementAmount } = this.props
+        return (
+            <div className="card mt-3">
+                <div className="row">
+                    <div className="col-10">
+                        <h5 className="card-title">{transaction.title}</h5>
+                    </div>
+                    <div className="col-2 text-right">
+                        <button className="btn btn-success" onClick={this.toggleHidden.bind(this)}>
+                            {this.state.text}
+                        </button>
+                    </div>
                 </div>
-                <div className="ml-auto">
-                    <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
-                </div>
+                {!this.state.isHidden && <ExpandCollapse transaction={transaction} onIncrementAmount={onIncrementAmount} />}
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default TransactionCard

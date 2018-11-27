@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
-import { fetchTransactions } from './state'
-
+import {fetchTransaction} from './state';
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
-
-import TransactionList from './TransactionList'
-
+import TransactionList from './TransactionList';
 
 class App extends Component {
 
   state = {
-    title: 'My Bank Account',
-    transactions: []
+    title : 'My Bank Account',
+    transactions: [],
+    value: 0
   }
 
   fetchData = () => {
-    fetchTransactions()
+    fetchTransaction()
       .then((resp) => {
         this.setState({
           transactions: resp.data
@@ -23,6 +21,7 @@ class App extends Component {
       })
   }
 
+  // questa funzione viene richiamata automaticamente quando viene montato un nuovo componente nel DOM
   componentWillMount () {
     this.fetchData()
   }
@@ -35,49 +34,64 @@ class App extends Component {
 
   updateTitle = () => {
     this.setState({
-      title: `Updated title ${Date.now()}`
+      title: `Update title ${Date.now()}`
     })
   }
 
   incrementAmount = (transactionId) => {
-    const { transactions } = this.state
-    
-    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
-    const txToUpdate = transactions[txIndex]
-    
-    const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
+    // aggiorno solo il primo oggetto dell'array
+    /*const currentFirstTx = this.state.transactions[0];
+    const incrementedTx = {...currentFirstTx, amount: currentFirstTx.amount + 10};
+    this.setState({
+      transactions: [incrementedTx, ...this.state.transactions.slice(1)]
+    })*/
 
-    const newTransactions = [...transactions]
-    newTransactions[txIndex] = incrementedTx
+    const {transactions} = this.state
+    const txIndex = transactions.findIndex(tx => tx.id === transactionId);
+    const txtoUpdate = transactions[txIndex]
+    const incrementedTx = {...txtoUpdate, amount: txtoUpdate.amount + 10};
+    const newTransaction = [...transactions];
+    newTransaction[txIndex] = incrementedTx;
 
     this.setState({
-      transactions: newTransactions
+      transactions: newTransaction
     })
   }
 
   addTransaction = () => {
-    const newTransaction = { id: Date.now(), amount: 400, title: 'asdasd' }
-
+    // modifica lo stato corrente, meglio non usarlo
+    /*const currentTransaction = this.state.transactions
+    currentTransaction.push({id: Date.now(), amount: 400, title: 'blablabla'})
     this.setState({
+      transactions: currentTransaction
+    })*/
+    
+    // soluzione corretta! creiamo una copia dell'array
+    // l'array non contiene copia di tutti gli elementi, ma dei puntatori all'array originale
+    // quindi creiamo una copia dell'array che contiene puntatori agli elementi e non una copia degli elementi stessi
+    const newTransaction = {id: Date.now(), amount: 400, title: 'blablabla'}
+    this.setState({ // serve per non modificare direttamente lo stato corrente
       transactions: [...this.state.transactions, newTransaction]
     })
   }
 
+  handleChange = (event) => {
+    this.setState({
+      value: event.target.value
+    })
+  }
+
   render() {
-    const { title, transactions } = this.state
-    
+    const { title, transactions, value } = this.state
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
-      onClearTransactions: this.clearTransactions
+      onClearTransactions: this.clearTransactions,
+      onHandleChange: this.handleChange
     }
 
     return (
-      <TransactionList 
-        transactions={transactions} 
-        title={title} 
-        callbacks={callbacks}
-      />
+      <TransactionList transactions={transactions} title={title} callbacks={callbacks} value={value} />
     )
   }
   
