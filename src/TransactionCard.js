@@ -27,19 +27,21 @@ class TransactionCard extends Component {
   }
 
   render() {
-    const { transaction, onIncrementAmount } = this.props
+    const { transaction, currency, onIncrementAmount } = this.props
     const { visibility } = this.state
     return (
       <div className="card p-2 mb-2">
         <div className="d-flex">
           <div>
-              <h5 className="card-title">{transaction.title}</h5>
-              <p className="card-text">
-                Amount: {transaction.amount}
-              </p>
+              <h5 className="card-title">
+                <span class="badge badge-pill badge-info mr-2">
+                  {currency} {transaction.amount}
+                </span>
+                {transaction.title}
+              </h5>
           </div>
           <div className="ml-auto">
-            <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
+            <button className="btn btn-success btn-sm" onClick={onIncrementAmount}>+ {currency} 10</button>
           </div>
         </div>
         <div className="card mt-2">

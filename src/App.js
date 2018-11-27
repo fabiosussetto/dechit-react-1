@@ -10,6 +10,7 @@ class App extends Component {
 
   state = {
     title: 'My Bank Account',
+    currency: '€', // &eur; !!!
     transactions: [],
   }
 
@@ -75,7 +76,7 @@ class App extends Component {
   }
 
   render() {
-    const { title, transactions } = this.state
+    const { title, transactions, currency } = this.state
 
     const callbacks = {
       filterResults: this.filterResults,
@@ -87,6 +88,7 @@ class App extends Component {
     return (
       <TransactionList
         transactions={transactions}
+        currency={currency}
         title={title}
         callbacks={callbacks}
       />

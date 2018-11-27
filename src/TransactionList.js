@@ -5,31 +5,39 @@ import SearchBar from './SearchBar'
 class TransactionList extends Component {
 
   render() {
-    const { title, transactions, callbacks } = this.props
+    const { title, transactions, currency, callbacks } = this.props
 
     const listElements = transactions.map((transaction) => (
       <TransactionCard
         transaction={transaction}
+        currency={currency}
         onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
         key={transaction.id}
       />
     ))
 
     return (
-      <div className="container">
-        <h1>{title}</h1>
-        <SearchBar
-          filterResults={callbacks.filterResults} />
-        <div>
-          {listElements}
-        </div>
-        <div className="btn-group">
-          <button className="btn btn-primary" onClick={callbacks.onAddTransaction}>
-            Add
+      <div>
+        <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+          <a className="navbar-brand" href="#">{title}</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <button className="btn btn-secondary" onClick={callbacks.onClearTransactions}>
-            Remove all
-          </button>
+          <ul className="navbar-nav mr-auto"> {/* empty, for now */}</ul>
+          <SearchBar filterResults={callbacks.filterResults} />
+        </nav>
+        <div className="container pt-2">
+          <div>
+            {listElements}
+          </div>
+          <div className="btn-group">
+            <button className="btn btn-primary" onClick={callbacks.onAddTransaction}>
+              Add
+            </button>
+            <button className="btn btn-secondary" onClick={callbacks.onClearTransactions}>
+              Remove all
+            </button>
+          </div>
         </div>
       </div>
     )

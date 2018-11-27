@@ -19,11 +19,11 @@ class SearchBar extends React.Component {
   render() {
     const { filterResults } = this.props
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="form-inline">
         <label>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.value} onChange={this.handleChange} className="form-control mr-2 mb-2" />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Filter" className="btn btn-success btn-outline-success mb-2" />
       </form>
     );
   }
