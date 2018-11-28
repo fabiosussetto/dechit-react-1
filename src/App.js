@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     title : 'My Bank Account',
     transactions: [],
-    value: 0
+    filterAmount: 0
   }
 
   fetchData = () => {
@@ -28,7 +28,8 @@ class App extends Component {
 
   clearTransactions = () => {
     this.setState({
-      transactions: []
+      transactions: [],
+      filterAmount: 0
     })
   }
 
@@ -77,12 +78,12 @@ class App extends Component {
 
   handleChange = (event) => {
     this.setState({
-      value: event.target.value
+      filterAmount: event.target.value
     })
   }
 
   render() {
-    const { title, transactions, value } = this.state
+    const { title, transactions, filterAmount } = this.state
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
@@ -91,7 +92,7 @@ class App extends Component {
     }
 
     return (
-      <TransactionList transactions={transactions} title={title} callbacks={callbacks} value={value} />
+      <TransactionList transactions={transactions} title={title} callbacks={callbacks} filterAmount={filterAmount} />
     )
   }
   

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import ExpandCollapse from './ExpandCollapse';
 
 class TransactionCard extends Component {
+
     state = {
         isHidden: true,
         text: 'Expand',
     }
     
-    toggleHidden() {
+    toggleHidden = () => {
         let textExpandCollapse = this.state.text;
         if(textExpandCollapse==='Expand') {
             textExpandCollapse = 'Collapse'
@@ -29,7 +30,7 @@ class TransactionCard extends Component {
                         <h5 className="card-title">{transaction.title}</h5>
                     </div>
                     <div className="col-2 text-right">
-                        <button className="btn btn-success" onClick={this.toggleHidden.bind(this)}>
+                        <button className="btn btn-info" onClick={this.toggleHidden.bind(this)}>
                             {this.state.text}
                         </button>
                     </div>
