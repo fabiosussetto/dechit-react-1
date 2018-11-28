@@ -93,7 +93,7 @@ class App extends Component {
   }
 
   render() {
-    const { title, currency } = this.state
+    const { title, currency, filterAmount } = this.state
     // N.B.: transactions non viene piu' letto direttamente dallo stato
     const transactions = this.getTransactionsToDisplay()
 
@@ -108,6 +108,7 @@ class App extends Component {
       <TransactionList
         transactions={transactions}
         currency={currency}
+        filterAmount={filterAmount}
         title={title}
         callbacks={callbacks}
       />

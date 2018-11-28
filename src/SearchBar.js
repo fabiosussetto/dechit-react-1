@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class SearchBar extends React.Component {
-
-  state = {value: 40};
 
   handleChange = this.handleChange.bind(this);
   handleSubmit = this.handleSubmit.bind(this);
@@ -18,10 +16,9 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    const { filterResults } = this.props
     return (
       <form onSubmit={this.handleSubmit} className="form-inline">
-        <input type="num" value={this.state.value} onChange={this.handleChange} className="c-filter-input form-control mr-2" />
+        <input type="num" onChange={this.handleChange} className="c-filter-input form-control mr-2" />
         <input type="submit" value="Filter" className="btn btn-success btn-outline-success" />
       </form>
     );

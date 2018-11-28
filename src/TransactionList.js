@@ -19,9 +19,9 @@ class TransactionList extends Component {
     return (
       <div>
         <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" href="#">{title}</a>
+          <button className="navbar-brand btn btn-link">{title}</button>
           <ul className="navbar-nav mr-auto"> {/* empty, for now */}</ul>
-          <SearchBar 
+          <SearchBar
             onSubmit={callbacks.onSearch}
           />
         </nav>
