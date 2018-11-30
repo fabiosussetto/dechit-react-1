@@ -12,7 +12,7 @@ class App extends Component {
     title: 'My Bank Account',
     currency: '€', // &eur; !!!
     transactions: [],
-    filterAmount: null
+    filterAmount: 20
   }
 
   fetchData = () => {

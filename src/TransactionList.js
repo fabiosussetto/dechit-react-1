@@ -5,7 +5,7 @@ import SearchBar from './SearchBar'
 class TransactionList extends Component {
 
   render() {
-    const { title, transactions, currency, callbacks } = this.props
+    const { title, transactions, currency, filterAmount, callbacks } = this.props
 
     const listElements = transactions.map((transaction) => (
       <TransactionCard
@@ -22,6 +22,7 @@ class TransactionList extends Component {
           <button className="navbar-brand btn btn-link">{title}</button>
           <ul className="navbar-nav mr-auto"> {/* empty, for now */}</ul>
           <SearchBar
+            filterAmount={filterAmount}
             onSubmit={callbacks.onSearch}
           />
         </nav>

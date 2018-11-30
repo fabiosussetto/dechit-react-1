@@ -18,7 +18,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="form-inline">
-        <input type="num" onChange={this.handleChange} className="c-filter-input form-control mr-2" />
+        <input type="num" onChange={this.handleChange} className="c-filter-input form-control mr-2"/>
         <input type="submit" value="Filter" className="btn btn-success btn-outline-success" />
       </form>
     );
