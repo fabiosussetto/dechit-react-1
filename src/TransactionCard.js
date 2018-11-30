@@ -4,21 +4,17 @@ import ExpandCollapse from './ExpandCollapse';
 class TransactionCard extends Component {
 
     state = {
-        isHidden: true,
-        text: 'Expand',
+        isHidden: true
     }
     
     toggleHidden = () => {
-        let textExpandCollapse = this.state.text;
-        if(textExpandCollapse==='Expand') {
-            textExpandCollapse = 'Collapse'
-        } else if(textExpandCollapse==='Collapse') {
-            textExpandCollapse = 'Expand'
-        }
         this.setState({
-            isHidden: !this.state.isHidden,
-            text: textExpandCollapse
+            isHidden: !this.state.isHidden
         })
+    }
+
+    displayLabel () {
+        return this.state.isHidden ? 'Expand' : 'Collapse'
     }
 
     render() {
@@ -31,7 +27,7 @@ class TransactionCard extends Component {
                     </div>
                     <div className="col-2 text-right">
                         <button className="btn btn-info" onClick={this.toggleHidden.bind(this)}>
-                            {this.state.text}
+                            {this.displayLabel()}
                         </button>
                     </div>
                 </div>

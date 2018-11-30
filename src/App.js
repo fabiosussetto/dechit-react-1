@@ -33,12 +33,6 @@ class App extends Component {
     })
   }
 
-  updateTitle = () => {
-    this.setState({
-      title: `Update title ${Date.now()}`
-    })
-  }
-
   incrementAmount = (transactionId) => {
     // aggiorno solo il primo oggetto dell'array
     /*const currentFirstTx = this.state.transactions[0];
