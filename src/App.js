@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { fetchTransactions } from './state'
+import { connect } from "react-redux";
+import TransactionFilter from './TransactionFilter'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
@@ -10,19 +11,7 @@ import TransactionList from './TransactionList'
 class App extends Component {
 
   state = {
-    title: 'My Bank Account',
-    transactions: [],
-    filterAmount: null,
     expandedTransactionIds: [],
-  }
-
-  fetchData = () => {
-    fetchTransactions()
-      .then((resp) => {
-        this.setState({
-          transactions: resp.data
-        })
-      })
   }
 
   toggleCardExpanded = (transaction) => {
@@ -41,32 +30,13 @@ class App extends Component {
 
     this.setState({
       expandedTransactionIds: updatedIds
-      // expandedTransactionIds: expandedTransactionIds.filter((t, txIndex) => txIndex !== index)
     })
 
-  }
-
-  getFilteredTransactions () {
-    const { transactions, filterAmount } = this.state
-    if (!filterAmount) {
-      return transactions
-    }
-    return transactions.filter(transaction => transaction.amount > filterAmount)
-  }
-
-  componentWillMount () {
-    this.fetchData()
   }
 
   clearTransactions = () => {
     this.setState({
       transactions: []
-    })
-  }
-
-  onFilterSubmit = (amount) => {
-    this.setState({
-      filterAmount: amount
     })
   }
 
@@ -92,37 +62,31 @@ class App extends Component {
     })
   }
 
-  addTransaction = () => {
-    const newTransaction = { id: Date.now(), amount: 400, title: 'asdasd' }
-
-    this.setState({
-      transactions: [...this.state.transactions, newTransaction]
-    })
-  }
-
   render() {
     const { title, expandedTransactionIds } = this.state
     
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
-      onAddTransaction: this.addTransaction,
       onClearTransactions: this.clearTransactions,
-      onFilterSubmit: this.onFilterSubmit,
       toggleCardExpanded: this.toggleCardExpanded
     }
 
-    const transactions = this.getFilteredTransactions()
-
     return (
-      <TransactionList 
-        expandedIds={expandedTransactionIds}
-        transactions={transactions} 
-        title={title} 
-        callbacks={callbacks}
-      />
+      <div className="container">
+        <h2>My Bank Account</h2>
+        <div className="mt-2 mb-2">
+          <TransactionFilter />
+        </div>
+        <TransactionList 
+          expandedIds={expandedTransactionIds}
+          title={title} 
+          callbacks={callbacks}
+        />
+      </div>
     )
-  }
-  
+  }  
 }
 
-export default App;
+const ConnectedApp = connect()(App)
+
+export default ConnectedApp

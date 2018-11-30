@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
-import TransactionFilter from './TransactionFilter'
+import { fetchTransactions } from './state/actions'
+
+import { getFilteredTransactions } from './state/selectors'
 
 
 class TransactionList extends Component {
@@ -10,8 +13,27 @@ class TransactionList extends Component {
     return expandedIds.indexOf(transaction.id) > -1
   }
 
+  componentDidMount () {
+    this.props.dispatch(fetchTransactions())
+  }
+
+  onAdd = () => {
+    this.props.dispatch({ 
+      type: 'ADD_TRANSACTION', 
+      payload: { amount: 400, title: 'asdasd' } 
+    })
+  }
+
   render() {
-    const { title, transactions, callbacks } = this.props
+    const { transactions, callbacks, loading } = this.props
+
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
+          Loading...
+        </div>
+      )
+    }
   
     const listElements = transactions.map((transaction) => (
       <TransactionCard 
@@ -24,16 +46,12 @@ class TransactionList extends Component {
     ))
 
     return (
-      <div className="container">
-        <h1>{title}</h1>
-        <div className="mb-2">
-          <TransactionFilter onSubmit={callbacks.onFilterSubmit} />
-        </div>
+      <div>
         <div>
           {listElements}
         </div>
         <div className="btn-group">
-          <button className="btn btn-primary" onClick={callbacks.onAddTransaction}>
+          <button className="btn btn-primary" onClick={this.onAdd}>
             Add
           </button>
           <button className="btn btn-secondary" onClick={callbacks.onClearTransactions}>
@@ -46,4 +64,12 @@ class TransactionList extends Component {
   
 }
 
-export default TransactionList;
+
+const mapStateToProps = (state) => {
+  return {
+    transactions: getFilteredTransactions(state),
+    loading: state.transactions.loading
+  }
+}
+
+export default connect(mapStateToProps)(TransactionList);

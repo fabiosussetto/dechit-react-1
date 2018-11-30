@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from "react-redux";
+import { setFilterAmount } from './state/actions'
 
 const shortcuts = [
     { label: 'Cheap', maxAmount: 10 },
@@ -6,7 +8,7 @@ const shortcuts = [
     { label: 'Expensive', maxAmount: 9999 }
 ]
 
-export default class TransactionFilter extends Component {
+class TransactionFilter extends Component {
 
   state = {
     amount: 0
@@ -14,20 +16,20 @@ export default class TransactionFilter extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.amount)
+    this.props.dispatch(setFilterAmount(this.state.amount))
   }
 
   applyShortcut = (shortcut) => {
-      this.setState({
-          amount: shortcut.maxAmount
-      }, () => {
-        this.props.onSubmit(this.state.amount) 
-      })
+      // this.setState({
+      //     amount: shortcut.maxAmount
+      // }, () => {
+      //   this.props.onSubmit(this.state.amount) 
+      // })
   }
 
   onAmountChange = (event) => {
     this.setState({
-        amount: parseFloat(event.target.value)
+        amount: event.target.value ? parseFloat(event.target.value) : 0
     })
   }
 
@@ -58,11 +60,13 @@ export default class TransactionFilter extends Component {
             ))}
         </div>
         
-
-        <button type="button" onClick={this.resetAmount}>Reset</button>
-
-        <button type="submit">Filter</button>
+        <div className="mt-2">
+          <button type="submit" className="btn btn-sm btn-primary mr-2">Filter</button>
+          <button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button>
+        </div>
       </form>
     )
   }
 }
+
+export default connect()(TransactionFilter)
