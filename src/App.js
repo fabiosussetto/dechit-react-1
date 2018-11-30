@@ -11,14 +11,15 @@ class App extends Component {
 
   state = {
     title: 'My Bank Account',
-    transactions: []
+    transactions: [],
+    amountFilter: ''
   }
 
   fetchData = () => {
     fetchTransactions()
       .then((resp) => {
         this.setState({
-          transactions: resp.data
+          transactions: resp.data.map(transaction => ({...transaction,expanded:true}))
         })
       })
   }
@@ -38,6 +39,14 @@ class App extends Component {
       title: `Updated title ${Date.now()}`
     })
   }
+  
+  filterTransactions = (amount) => {
+    const {transactions} = this.state
+    const filteredTransactions = transactions.filter(tx => amount<=tx.amount)
+    this.setState({
+      transactions : filteredTransactions
+    })
+  }
 
   incrementAmount = (transactionId) => {
     const { transactions } = this.state
@@ -49,6 +58,22 @@ class App extends Component {
 
     const newTransactions = [...transactions]
     newTransactions[txIndex] = incrementedTx
+
+    this.setState({
+      transactions: newTransactions
+    })
+  }
+
+  expandCard = (transactionId) => {
+    const { transactions } = this.state
+    
+    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
+    const txToUpdate = transactions[txIndex]
+    
+    const expandedTx = { ...txToUpdate, expanded: txToUpdate.expanded === false ? true : false }
+
+    const newTransactions = [...transactions]
+    newTransactions[txIndex] = expandedTx
 
     this.setState({
       transactions: newTransactions
@@ -69,7 +94,9 @@ class App extends Component {
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
-      onClearTransactions: this.clearTransactions
+      onClearTransactions: this.clearTransactions,
+      onExpand: this.expandCard,
+      onAmountSearchChange : this.filterTransactions
     }
 
     return (
