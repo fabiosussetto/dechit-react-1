@@ -11,7 +11,9 @@ class App extends Component {
 
   state = {
     title: 'My Bank Account',
-    transactions: []
+    transactions: [],
+    filterAmount: null,
+    expandedTransactionIds: [],
   }
 
   fetchData = () => {
@@ -23,6 +25,35 @@ class App extends Component {
       })
   }
 
+  toggleCardExpanded = (transaction) => {
+    const {expandedTransactionIds} = this.state
+    const index = expandedTransactionIds.indexOf(transaction.id)
+
+    if (index === -1) {
+      this.setState({
+        expandedTransactionIds: [...expandedTransactionIds, transaction.id]
+      })
+      return
+    }
+
+    const updatedIds = [...expandedTransactionIds]
+    updatedIds.splice(index, 1)
+
+    this.setState({
+      expandedTransactionIds: updatedIds
+      // expandedTransactionIds: expandedTransactionIds.filter((t, txIndex) => txIndex !== index)
+    })
+
+  }
+
+  getFilteredTransactions () {
+    const { transactions, filterAmount } = this.state
+    if (!filterAmount) {
+      return transactions
+    }
+    return transactions.filter(transaction => transaction.amount > filterAmount)
+  }
+
   componentWillMount () {
     this.fetchData()
   }
@@ -30,6 +61,12 @@ class App extends Component {
   clearTransactions = () => {
     this.setState({
       transactions: []
+    })
+  }
+
+  onFilterSubmit = (amount) => {
+    this.setState({
+      filterAmount: amount
     })
   }
 
@@ -64,16 +101,21 @@ class App extends Component {
   }
 
   render() {
-    const { title, transactions } = this.state
+    const { title, expandedTransactionIds } = this.state
     
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onAddTransaction: this.addTransaction,
-      onClearTransactions: this.clearTransactions
+      onClearTransactions: this.clearTransactions,
+      onFilterSubmit: this.onFilterSubmit,
+      toggleCardExpanded: this.toggleCardExpanded
     }
+
+    const transactions = this.getFilteredTransactions()
 
     return (
       <TransactionList 
+        expandedIds={expandedTransactionIds}
         transactions={transactions} 
         title={title} 
         callbacks={callbacks}
