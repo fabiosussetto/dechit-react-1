@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionFilter from './TransactionFilter'
 
+
+import { setToggled, incrementAmount } from './state/actions'
+
+
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
@@ -11,27 +15,14 @@ import TransactionList from './TransactionList'
 class App extends Component {
 
   state = {
-    expandedTransactionIds: [],
+    expandedTransactionIds: [1],
   }
 
   toggleCardExpanded = (transaction) => {
-    const {expandedTransactionIds} = this.state
-    const index = expandedTransactionIds.indexOf(transaction.id)
-
-    if (index === -1) {
-      this.setState({
-        expandedTransactionIds: [...expandedTransactionIds, transaction.id]
-      })
-      return
-    }
-
-    const updatedIds = [...expandedTransactionIds]
-    updatedIds.splice(index, 1)
-
-    this.setState({
-      expandedTransactionIds: updatedIds
+    this.props.dispatch({
+      type: 'TOGGLE_CARD',
+      transaction: transaction
     })
-
   }
 
   clearTransactions = () => {
@@ -47,11 +38,12 @@ class App extends Component {
   }
 
   incrementAmount = (transactionId) => {
+
     const { transactions } = this.state
-    
+
     const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
     const txToUpdate = transactions[txIndex]
-    
+
     const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
 
     const newTransactions = [...transactions]
@@ -60,11 +52,16 @@ class App extends Component {
     this.setState({
       transactions: newTransactions
     })
+
+    // fare dispatch
+    //console.log( transactionId );
+    //this.props.dispatch(incrementAmount(transactionId))
+
   }
 
   render() {
     const { title, expandedTransactionIds } = this.state
-    
+
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onClearTransactions: this.clearTransactions,
@@ -77,14 +74,14 @@ class App extends Component {
         <div className="mt-2 mb-2">
           <TransactionFilter />
         </div>
-        <TransactionList 
+        <TransactionList
           expandedIds={expandedTransactionIds}
-          title={title} 
+          title={title}
           callbacks={callbacks}
         />
       </div>
     )
-  }  
+  }
 }
 
 const ConnectedApp = connect()(App)

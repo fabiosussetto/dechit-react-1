@@ -1,5 +1,6 @@
 import transactions from './transactions'
 import filters from './filters'
+import card from './card'
 
 const initialState = {
     transactions: {
@@ -11,7 +12,14 @@ const initialState = {
     },
     filters: {
         amount: 0
-    }
+    },
+    expandedTransactionIds: {
+      //ids: { id:1 }
+      ids:[
+         ///{ id: 1 }
+         1
+      ]
+    },
 }
 
 
@@ -19,5 +27,6 @@ export default function app(state = initialState, action) {
     return {
         transactions: transactions(state.transactions, action),
         filters: filters(state.filters, action),
+        expandedTransactionIds: card(state.expandedTransactionIds, action),
     }
 }

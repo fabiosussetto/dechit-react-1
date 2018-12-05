@@ -20,11 +20,16 @@ class TransactionFilter extends Component {
   }
 
   applyShortcut = (shortcut) => {
-      // this.setState({
-      //     amount: shortcut.maxAmount
-      // }, () => {
-      //   this.props.onSubmit(this.state.amount) 
-      // })
+    // this.setState({
+    //     amount: shortcut.maxAmount
+    // }, () => {
+    //   this.props.onSubmit(this.state.amount)
+    // })
+    this.setState({
+         amount: shortcut.maxAmount
+    }, () => {
+      this.props.dispatch(setFilterAmount(this.state.amount))
+     })
   }
 
   onAmountChange = (event) => {
@@ -42,24 +47,24 @@ class TransactionFilter extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        Amount: 
-        <input 
-            type="number" 
-            value={this.state.amount} 
-            onChange={this.onAmountChange}  
+        Amount:
+        <input
+            type="number"
+            value={this.state.amount}
+            onChange={this.onAmountChange}
         />
 
         <div>
             {shortcuts.map(shortcut => (
-                <span 
+                <span
                     key={shortcut.label}
-                    className="badge badge-secondary mr-2" 
+                    className="badge badge-secondary mr-2"
                     onClick={() => this.applyShortcut(shortcut)}>
                     {shortcut.label}
                 </span>
             ))}
         </div>
-        
+
         <div className="mt-2">
           <button type="submit" className="btn btn-sm btn-primary mr-2">Filter</button>
           <button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button>

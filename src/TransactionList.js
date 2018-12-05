@@ -10,7 +10,7 @@ class TransactionList extends Component {
 
   isCardExpanded = (transaction) => {
     const { expandedIds } = this.props
-    return expandedIds.indexOf(transaction.id) > -1
+    return false //expandedIds.indexOf(transaction.id) > -1
   }
 
   componentDidMount () {
@@ -18,9 +18,9 @@ class TransactionList extends Component {
   }
 
   onAdd = () => {
-    this.props.dispatch({ 
-      type: 'ADD_TRANSACTION', 
-      payload: { amount: 400, title: 'asdasd' } 
+    this.props.dispatch({
+      type: 'ADD_TRANSACTION',
+      payload: { amount: 400, title: 'asdasd' }
     })
   }
 
@@ -34,14 +34,14 @@ class TransactionList extends Component {
         </div>
       )
     }
-  
+
     const listElements = transactions.map((transaction) => (
-      <TransactionCard 
+      <TransactionCard
         onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
         expanded={this.isCardExpanded(transaction)}
-        transaction={transaction} 
+        transaction={transaction}
         onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
-        key={transaction.id} 
+        key={transaction.id}
       />
     ))
 
@@ -61,7 +61,7 @@ class TransactionList extends Component {
       </div>
     )
   }
-  
+
 }
 
 
