@@ -8,9 +8,11 @@ import { getFilteredTransactions } from './state/selectors'
 
 class TransactionList extends Component {
 
-  isCardExpanded = (transaction) => {
-    const { expandedIds } = this.props
-    return false //expandedIds.indexOf(transaction.id) > -1
+  isCardExpanded = (transaction,expandedIds) => {
+    //* indica se la transazione passata esiste o no nell'array di quelle espanse.
+    //* ritorna un boolean che mi serve come condizione nel componente della card
+    const result = expandedIds.ids.indexOf(transaction.id) > -1;
+    return result
   }
 
   componentDidMount () {
@@ -25,8 +27,8 @@ class TransactionList extends Component {
   }
 
   render() {
-    const { transactions, callbacks, loading } = this.props
-
+    //* uso le props mappatecon mapStateToProps
+    const { transactions, callbacks, loading, expandedTransactionIds } = this.props
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
@@ -38,7 +40,9 @@ class TransactionList extends Component {
     const listElements = transactions.map((transaction) => (
       <TransactionCard
         onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
-        expanded={this.isCardExpanded(transaction)}
+        //* passo alla mia funzione isCardExpanded() sia la transazione corrente
+        //* che l'array delle transazioni espanse da controllare
+        expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
         transaction={transaction}
         onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
         key={transaction.id}
@@ -68,7 +72,9 @@ class TransactionList extends Component {
 const mapStateToProps = (state) => {
   return {
     transactions: getFilteredTransactions(state),
-    loading: state.transactions.loading
+    loading: state.transactions.loading,
+    //* mappo nelle props anche le transazioni espanse per usarle con this.props
+    expandedTransactionIds: state.expandedTransactionIds
   }
 }
 

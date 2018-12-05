@@ -14,11 +14,6 @@ const TransactionCard = (props) => {
                         Amount: {transaction.amount}
                     </p>
                 </div>
-                {expanded && (
-                  <p>
-                    I'm expanded
-                  </p>
-                )}
 
                 <div className="ml-auto">
                     <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
@@ -27,6 +22,15 @@ const TransactionCard = (props) => {
                     </button>
                 </div>
             </div>
+
+            {expanded && (
+              <p>
+                <small>
+                 {transaction.descriptions}
+                </small>
+              </p>
+            )}
+
         </div>
     )
 }
