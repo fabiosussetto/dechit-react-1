@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
+import TransactionFilter from './TransactionFilter'
+
 import { fetchTransactions, incrementAmount } from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
@@ -59,6 +61,7 @@ class TransactionList extends Component {
 
     return (
       <div>
+        <TransactionFilter />
         <div>
           {listElements}
         </div>

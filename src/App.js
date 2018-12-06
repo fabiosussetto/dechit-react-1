@@ -31,20 +31,30 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="container">
-          <h2>My Bank Account</h2>
-          <hr />
+        <div className="">
+
+        <nav className="navbar sticky-top navbar-expand navbar-light bg-light">
+          <a className="navbar-brand" href="#">My Bank Account</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <MainMenu />
+          </div>
+        </nav>
           <hr />
-          <div className="mt-2 mb-2">
-            <TransactionFilter />
+          <div className="container">
+          {/* TODO: sistemare il fatto che  se cambio rotta lo astato viene resettato
+            e quindi in transactions/new il comportamento di TransactionAddForm non funziona
+            perchè quan do torno nella lista non vedo nulla */}
+            <div className="mt-2 mb-2">
+              <TransactionAddForm />
+            </div>
+            <Route exact path="/" component={Home} />
+            <Route path="/transactions/new" component={TransactionAddForm} />
+            <Route path="/transactions/list"
+                   render={props => <TransactionList {...props} callbacks={callbacks} />} />
           </div>
-          <div className="mt-2 mb-2">
-          </div>
-          <Route exact path="/" component={Home} />
-          <Route path="/addtransaction" component={TransactionAddForm} />
-          <Route path="/transactions"
-                 render={props => <TransactionList {...props} callbacks={callbacks} />} />
 
         </div>
       </Router>

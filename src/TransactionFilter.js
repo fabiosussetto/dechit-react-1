@@ -45,14 +45,19 @@ class TransactionFilter extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        Amount:
-        <input
-            type="number"
-            value={this.state.amount}
-            onChange={this.onAmountChange}
-        />
-
+      <div className="d-flex flex-column mb-4">
+        <form onSubmit={this.onSubmit} className="form-inline">
+          <input
+              type="number"
+              value={this.state.amount}
+              onChange={this.onAmountChange}
+              className="c-filter-input form-control mr-2 mb-2"
+          />
+          <div className="mb-2">
+            <button type="submit" className="btn btn-primary mr-2">Filter</button>
+            <button type="button" className="btn btn-secondary mr-2" onClick={this.resetAmount}>Reset</button>
+          </div>
+        </form>
         <div>
             {shortcuts.map(shortcut => (
                 <span
@@ -63,12 +68,7 @@ class TransactionFilter extends Component {
                 </span>
             ))}
         </div>
-
-        <div className="mt-2">
-          <button type="submit" className="btn btn-sm btn-primary mr-2">Filter</button>
-          <button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button>
-        </div>
-      </form>
+      </div>
     )
   }
 }

@@ -3,15 +3,12 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const MainMenu = () => {
   return(
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
+    <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <Link className="nav-link" to="/transactions/new">New</Link>
       </li>
-      <li>
-        <Link to="/addtransaction">Add Transactions</Link>
-      </li>
-      <li>
-        <Link to="/transactions">Transactions List</Link>
+      <li className="nav-item">
+        <Link className="nav-link" to="/transactions/list">List</Link>
       </li>
     </ul>
   )

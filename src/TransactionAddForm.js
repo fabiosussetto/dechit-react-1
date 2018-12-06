@@ -48,36 +48,60 @@ class TransactionAddForm extends Component {
   }
 
   render() {
+/*
+
+<form className="form-inline">
+  <input type="num" className="c-filter-input form-control mr-2">
+    <input type="submit" className="btn btn-success btn-outline-success" value="Filter">
+    </form>
+
+    */
 
     const elems = this.props.transaction_titles.list
 
     return (
-      <form onSubmit={this.onSubmit} className="form-inline">
-        <input
-            name="amount"
-            type="number"
-            value={this.state.amount}
-            onChange={this.handleInputChange}
-        />
-
-        <select name="title" value={this.state.title} onChange={this.handleInputChange}>
-          {elems.map((elem) => (
-              <TransactionTitleList
-                elem={elem}
-                key={elem.value}
-              />
-            ))}
-        </select>
-        <input
-            name="descriptions"
-            type="text"
-            value={this.state.descriptions}
-            onChange={this.handleInputChange}
-        />
-        <div className="ml-2">
-          <button type="submit" className="btn btn-sm btn-success mr-2">Add</button>
-        </div>
-      </form>
+      <div>
+        <div className="row">
+          <div className="col-md-12">
+              <form onSubmit={this.onSubmit} className="row">
+                  <div className="col-6 col-sm pr-sm-0">
+                  <input
+                      name="amount"
+                      type="number"
+                      value={this.state.amount}
+                      onChange={this.handleInputChange}
+                      className="c-filter-input form-control mr-2 mb-3"
+                  />
+                  </div>
+                  <div className="col-6 col-sm pr-sm-0">
+                    <select name="title"
+                      value={this.state.title}
+                      onChange={this.handleInputChange}
+                      className="c-filter-input form-control mr-2 mb-3">
+                      {elems.map((elem) => (
+                          <TransactionTitleList
+                            elem={elem}
+                            key={elem.value}
+                          />
+                        ))}
+                    </select>
+                  </div>
+                  <div className="col-9 col-sm col-md-6 pr-sm-0">
+                    <input
+                        name="descriptions"
+                        type="text"
+                        value={this.state.descriptions}
+                        onChange={this.handleInputChange}
+                        className="c-filter-input form-control mr-2 mb-3"
+                    />
+                  </div>
+                  <div className="col-3 col-sm-auto pr-sm-0">
+                      <button type="submit" className="btn btn-success btn-block mr-2">Add</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+      </div>
     )
   }
 }
