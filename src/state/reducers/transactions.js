@@ -21,8 +21,6 @@ export default function transactions(state, action) {
 
           const transactions = state.list
 
-          console.log(state);
-
           const txIndex = transactions.findIndex((tx) => tx.id === action.payload.transactionId)
           const txToUpdate = transactions[txIndex]
 
