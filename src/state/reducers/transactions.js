@@ -17,6 +17,24 @@ export default function transactions(state, action) {
                 ...state,
                 list: [...state.list, newTransaction]
             }
+        case 'INCREMENT_AMOUNT':
+
+          const transactions = state.list
+
+          console.log(state);
+
+          const txIndex = transactions.findIndex((tx) => tx.id === action.payload.transactionId)
+          const txToUpdate = transactions[txIndex]
+
+          const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
+
+          const newTransactions = [...transactions]
+          newTransactions[txIndex] = incrementedTx
+
+        return {
+          ...state,
+          list: newTransactions
+        }
         default:
             return state;
     }

@@ -26,6 +26,22 @@ class TransactionList extends Component {
     })
   }
 
+  // spostata incrementAmount da App
+  incrementAmount = (transactionId) => {
+
+    console.log('foo');
+
+    this.props.dispatch({
+      type: 'INCREMENT_AMOUNT',
+      payload: { transactionId: transactionId }
+    })
+
+    // fare dispatch
+    //console.log( transactionId );
+    //this.props.dispatch(incrementAmount(transactionId))
+
+  }
+
   render() {
     //* uso le props mappatecon mapStateToProps
     const { transactions, callbacks, loading, expandedTransactionIds } = this.props
@@ -44,7 +60,7 @@ class TransactionList extends Component {
         //* che l'array delle transazioni espanse da controllare
         expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
         transaction={transaction}
-        onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
+        onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
         key={transaction.id}
       />
     ))

@@ -37,37 +37,9 @@ class App extends Component {
     })
   }
 
-  incrementAmount = (transactionId) => {
-
-    const { transactions } = this.state
-
-    //console.log(state);
-
-    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
-    const txToUpdate = transactions[txIndex]
-
-    const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
-
-    const newTransactions = [...transactions]
-    newTransactions[txIndex] = incrementedTx
-
-    this.setState({
-      transactions: newTransactions
-    })
-
-    // fare dispatch
-    //console.log( transactionId );
-    //this.props.dispatch(incrementAmount(transactionId))
-
-  }
-
   render() {
 
-
-    //console.log('InitialState',InitialState);
-
     const callbacks = {
-      onIncrementAmount: this.incrementAmount,
       onClearTransactions: this.clearTransactions,
       toggleCardExpanded: this.toggleCardExpanded
     }
