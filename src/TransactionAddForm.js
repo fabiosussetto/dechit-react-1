@@ -48,13 +48,8 @@ class TransactionAddForm extends Component {
   }
 
   render() {
-    //const { transaction_titles_list } = this.props
 
-console.log('this.props.transaction_titles.list',this.props.transaction_titles.list)
-const elems = this.props.transaction_titles.list
-
-console.log('elems',typeof elems,elems)
-//debugger
+    const elems = this.props.transaction_titles.list
 
     return (
       <form onSubmit={this.onSubmit} className="form-inline">
@@ -87,11 +82,7 @@ console.log('elems',typeof elems,elems)
   }
 }
 
-//export default connect()(TransactionAddForm)
-
-
 const mapStateToProps = (state) => {
-  console.log('mapStateToProps on add:',state.transaction_titles);
   return {
     transaction_titles: state.transaction_titles
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionFilter from './TransactionFilter'
 import TransactionAddForm from './TransactionAddForm'
+import { toggleCard } from './state/actions'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
@@ -18,12 +19,14 @@ class App extends Component {
 
   //* creo un'azione e ne faccio il dispatch per gestirla in redux
   toggleCardExpanded = (transaction) => {
-    this.props.dispatch({
+    this.props.dispatch(toggleCard(transaction));
+    /*this.props.dispatch({
       type: 'TOGGLE_CARD',
       //* inserisco i parametri che mi serve passare al reducer
       //* (in questo caso dentro a payload, ma è una convenzione)
       payload: {transaction: transaction}
     })
+    */
   }
 
   clearTransactions = () => {

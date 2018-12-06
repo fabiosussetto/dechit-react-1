@@ -19,18 +19,6 @@ export function fetchTransactions() {
   };
 }
 
-export function fetchTitles() {
-  return (dispatch, getState) => {
-      axios.get('http://www.martapetrella.com/dechit-corso-titles.json')
-          .then((resp) => {
-              dispatch({
-                  type: 'SET_TRANSACTION_TITLES_LIST',
-                  titles: resp.data
-              });
-          })
-  };
-}
-
 //* esporto la mia funzione nelle actions, poi ne faccio il dispatch per passarla
 //* già "pulita" al reducer (meglio lasciare il reducwer più pulito possibile)
 export function incrementAmount(transactionId) {
@@ -50,7 +38,27 @@ export function incrementAmount(transactionId) {
         type: 'INCREMENT_AMOUNT',
         transactions: newTransactions
     });
-
-
   };
+}
+
+export function fetchTitles() {
+  return (dispatch, getState) => {
+      axios.get('http://www.martapetrella.com/dechit-corso-titles.json')
+          .then((resp) => {
+              dispatch({
+                  type: 'SET_TRANSACTION_TITLES_LIST',
+                  titles: resp.data
+              });
+          })
+  };
+}
+
+export function toggleCard(transaction) {
+  return (dispatch, getstate) => {
+    //* passo i parametri al reducer
+    dispatch({
+      type: 'TOGGLE_CARD',
+      payload: {transaction: transaction}
+    });
+  }
 }
