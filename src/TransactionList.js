@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
-import { fetchTransactions } from './state/actions'
+import { fetchTransactions, incrementAmount } from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
 
@@ -26,20 +26,9 @@ class TransactionList extends Component {
     })
   }
 
-  // spostata incrementAmount da App
+  //* spostata incrementAmount da App
   incrementAmount = (transactionId) => {
-
-    console.log('foo');
-
-    this.props.dispatch({
-      type: 'INCREMENT_AMOUNT',
-      payload: { transactionId: transactionId }
-    })
-
-    // fare dispatch
-    //console.log( transactionId );
-    //this.props.dispatch(incrementAmount(transactionId))
-
+    this.props.dispatch(incrementAmount(transactionId))
   }
 
   render() {
