@@ -32,8 +32,8 @@ class TransactionList extends Component {
   }
 
   render() {
-    //* uso le props mappatecon mapStateToProps
-    const { transactions, callbacks, loading, expandedTransactionIds } = this.props
+    //* uso le props mappate con mapStateToProps
+    const { transactions, callbacks, loading, expandedTransactionIds, currency } = this.props
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
@@ -49,6 +49,7 @@ class TransactionList extends Component {
         //* che l'array delle transazioni espanse da controllare
         expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
         transaction={transaction}
+        currency={currency}
         onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
         key={transaction.id}
       />
@@ -77,6 +78,7 @@ class TransactionList extends Component {
 const mapStateToProps = (state) => {
   return {
     transactions: getFilteredTransactions(state),
+    currency: state.currency,
     loading: state.transactions.loading,
     //* mappo nelle props anche le transazioni espanse per usarle con this.props
     expandedTransactionIds: state.expandedTransactionIds

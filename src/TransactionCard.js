@@ -3,22 +3,24 @@ import React from 'react'
 // Es. di "functional component"
 
 const TransactionCard = (props) => {
-    const { transaction, onIncrementAmount, expanded, onToggleExpand } = props
-
+    const { transaction, onIncrementAmount, expanded, onToggleExpand, currency } = props
     return (
         <div className="card p-2 mb-2">
             <div className="d-flex">
                 <div>
                     <h5 className="card-title">{transaction.title}</h5>
-                    <p className="card-text">
-                        Amount: {transaction.amount}
-                    </p>
+                    <div className="card-text">
+                        {currency+' '+transaction.amount}
+                        <button className="btn btn-sm btn-success ml-2" onClick={onIncrementAmount}>
+                          + {currency} 10
+                        </button>
+                    </div>
                 </div>
 
                 <div className="ml-auto">
-                    <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
-                    <button className="btn btn-secondary" onClick={onToggleExpand}>
-                      {expanded ? 'Collapse' : 'Expand'}
+
+                    <button className="btn btn-sm btn-secondary" onClick={onToggleExpand}>
+                      {expanded ? '-' : '+'}
                     </button>
                 </div>
             </div>
