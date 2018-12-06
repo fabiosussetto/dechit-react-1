@@ -12,12 +12,11 @@ export default function card(state, action) {
         //* vedo se l'id della transazione è presente nelle transazioni espanse e ne recupero l'indice
         const index = expandedTransactionIds.indexOf(transaction.id)
         //* setto la variabile che ospiterà la copia del mio stato
-        var newState = state.ids
+        let newState = state.ids
 
         if (index === -1) {
           //* se l'indice non esiste è -1, quindi lo aggiungo
-          const newObjId = transaction.id
-          newState = [...state.ids, newObjId]
+          newState = [...state.ids, transaction.id]
         } else {
           //* se l'indice esiste lo sottraggo con splice
           newState.splice(index, 1)

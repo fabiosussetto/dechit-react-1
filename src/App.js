@@ -41,6 +41,8 @@ class App extends Component {
 
     const { transactions } = this.state
 
+    //console.log(state);
+
     const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
     const txToUpdate = transactions[txIndex]
 
@@ -60,6 +62,9 @@ class App extends Component {
   }
 
   render() {
+
+
+    //console.log('InitialState',InitialState);
 
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
