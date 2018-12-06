@@ -7,7 +7,7 @@ import card from './card'
 const initialState = {
     currency: "€",
     transaction_titles: {
-      list: [ ]
+      list: []
     },
     transactions: {
         loading: true,
@@ -19,7 +19,7 @@ const initialState = {
     //* creo il mio stato
     //* TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
     expandedTransactionIds: {
-      ids: [ 5 ]
+      ids: []
     },
 }
 
