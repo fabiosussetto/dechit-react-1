@@ -42,11 +42,3 @@ export function incrementAmount(transactionId) {
 
   };
 }
-
-
-export function incrementAmountss(transactionId) {
-  console.log('1231231231231212312313123');
-
-  return { type: 'INCREMENT_AMOUNT', transactionId: transactionId };
-
-}

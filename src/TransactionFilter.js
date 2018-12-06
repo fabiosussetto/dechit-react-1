@@ -41,6 +41,8 @@ class TransactionFilter extends Component {
   resetAmount = () => {
     this.setState({
         amount: 0
+   }, () => {
+     this.props.dispatch(setFilterAmount(this.state.amount))
     })
   }
 
