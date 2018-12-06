@@ -29,11 +29,7 @@ class App extends Component {
     */
   }
 
-  clearTransactions = () => {
-    this.setState({
-      transactions: []
-    })
-  }
+  //* elimino le funzioni callback che passavo a transactionList e le  metto direttamente dentro
 
   updateTitle = () => {
     this.setState({
@@ -44,7 +40,6 @@ class App extends Component {
   render() {
 
     const callbacks = {
-      onClearTransactions: this.clearTransactions,
       toggleCardExpanded: this.toggleCardExpanded
     }
 
@@ -57,9 +52,7 @@ class App extends Component {
         <div className="mt-2 mb-2">
           <TransactionAddForm />
         </div>
-        <TransactionList
-          callbacks={callbacks}
-        />
+        <TransactionList  callbacks={callbacks} />
       </div>
     )
   }

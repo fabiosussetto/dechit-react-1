@@ -23,6 +23,11 @@ export default function transactions(state, action) {
             ...state,
             list: incrementedTransaction
           }
+        case 'REMOVE_ALL_TRANSACTION':
+          return {
+            ...state,
+            list: []
+          }
         default:
             return state;
     }

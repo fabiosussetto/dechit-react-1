@@ -19,14 +19,15 @@ class TransactionList extends Component {
     this.props.dispatch(fetchTransactions())
   }
 
-  onAdd = () => {
+  //* spostata da App
+  onClearTransactions = () => {
     this.props.dispatch({
-      type: 'ADD_TRANSACTION',
+      type: 'REMOVE_ALL_TRANSACTION',
       payload: { amount: 400, title: 'asdasd' }
     })
   }
 
-  //* spostata incrementAmount da App
+  //* spostata da App
   incrementAmount = (transactionId) => {
     this.props.dispatch(incrementAmount(transactionId))
   }
@@ -34,6 +35,7 @@ class TransactionList extends Component {
   render() {
     //* uso le props mappate con mapStateToProps
     const { transactions, callbacks, loading, expandedTransactionIds, currency } = this.props
+
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
@@ -60,14 +62,9 @@ class TransactionList extends Component {
         <div>
           {listElements}
         </div>
-        <div className="btn-group">
-          <button className="btn btn-primary" onClick={this.onAdd}>
-            Add
-          </button>
-          <button className="btn btn-secondary" onClick={callbacks.onClearTransactions}>
-            Remove all
-          </button>
-        </div>
+        <button className="btn btn-secondary" onClick={this.onClearTransactions}>
+          Remove all
+        </button>
       </div>
     )
   }
