@@ -16,15 +16,15 @@ class TransactionFilter extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.dispatch(setFilterAmount(this.state.amount))
+    this.props.dispatch(setFilterAmount(this.state.amount));
   }
 
   applyShortcut = (shortcut) => {
-      // this.setState({
-      //     amount: shortcut.maxAmount
-      // }, () => {
-      //   this.props.onSubmit(this.state.amount) 
-      // })
+      this.setState({
+          amount: shortcut.maxAmount
+      }, () => {
+        this.props.dispatch(setFilterAmount(this.state.amount));
+      })
   }
 
   onAmountChange = (event) => {

@@ -1,9 +1,8 @@
 import React from 'react'
-
-// Es. di "functional component"
+import ExpandCollapse from './ExpandCollapse';
 
 const TransactionCard = (props) => {
-    const { transaction, onIncrementAmount, expanded, onToggleExpand } = props
+    const { transaction, onRemoveTransaction, onIncrementAmount, expanded, onToggleExpand } = props
 
     return (
         <div className="card p-2 mb-2">
@@ -14,19 +13,15 @@ const TransactionCard = (props) => {
                         Amount: {transaction.amount}
                     </p>
                 </div>
-                {expanded && (
-                  <p>
-                    I'm expanded
-                  </p>
-                )}
-
                 <div className="ml-auto">
                     <button className="btn btn-success" onClick={onIncrementAmount}>Add 10</button>
                     <button className="btn btn-secondary" onClick={onToggleExpand}>
                       {expanded ? 'Collapse' : 'Expand'}
                     </button>
+                    <button className="btn btn-danger" onClick={onRemoveTransaction}>Remove</button>
                 </div>
             </div>
+            {expanded && <ExpandCollapse transaction={transaction} />}
         </div>
     )
 }

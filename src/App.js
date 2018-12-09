@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
 
 import TransactionList from './TransactionList'
+import * as actions from './state/actions'
+import { getFilteredTransactions } from './state/selectors'
 
 
 class App extends Component {
@@ -35,38 +37,32 @@ class App extends Component {
   }
 
   clearTransactions = () => {
-    this.setState({
-      transactions: []
-    })
-  }
-
-  updateTitle = () => {
-    this.setState({
-      title: `Updated title ${Date.now()}`
-    })
+    this.props.dispatch(actions.clearTransactions());
   }
 
   incrementAmount = (transactionId) => {
-    const { transactions } = this.state
+    const { transactions } = this.props
     
     const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
     const txToUpdate = transactions[txIndex]
-    
     const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
-
     const newTransactions = [...transactions]
     newTransactions[txIndex] = incrementedTx
+    this.props.dispatch(actions.incrementAmount(newTransactions));
+  }
 
-    this.setState({
-      transactions: newTransactions
-    })
+  removeTransaction = (transactionId) => {
+    const { transactions } = this.props
+    const newTransactions = transactions.filter(transaction => transaction.id!==transactionId);
+    this.props.dispatch(actions.removeTransaction(newTransactions));
   }
 
   render() {
-    const { title, expandedTransactionIds } = this.state
+    const { expandedTransactionIds } = this.state
     
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
+      onRemoveTransaction: this.removeTransaction,
       onClearTransactions: this.clearTransactions,
       toggleCardExpanded: this.toggleCardExpanded
     }
@@ -79,7 +75,6 @@ class App extends Component {
         </div>
         <TransactionList 
           expandedIds={expandedTransactionIds}
-          title={title} 
           callbacks={callbacks}
         />
       </div>
@@ -87,6 +82,12 @@ class App extends Component {
   }  
 }
 
-const ConnectedApp = connect()(App)
+const mapStateToProps = (state) => {
+  return {
+    transactions: getFilteredTransactions(state),
+  }
+}
+
+const ConnectedApp = connect(mapStateToProps)(App)
 
 export default ConnectedApp

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
-import { fetchTransactions } from './state/actions'
+import * as actions from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
 
@@ -14,14 +14,11 @@ class TransactionList extends Component {
   }
 
   componentDidMount () {
-    this.props.dispatch(fetchTransactions())
+    this.props.dispatch(actions.fetchTransactions())
   }
 
   onAdd = () => {
-    this.props.dispatch({ 
-      type: 'ADD_TRANSACTION', 
-      payload: { amount: 400, title: 'asdasd' } 
-    })
+    this.props.dispatch(actions.addTransaction())
   }
 
   render() {
@@ -40,6 +37,7 @@ class TransactionList extends Component {
         onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
         expanded={this.isCardExpanded(transaction)}
         transaction={transaction} 
+        onRemoveTransaction={callbacks.onRemoveTransaction.bind(this, transaction.id)}
         onIncrementAmount={callbacks.onIncrementAmount.bind(this, transaction.id)}
         key={transaction.id} 
       />

@@ -3,7 +3,7 @@ export default function filters(state, action) {
         case 'SET_FILTER_AMOUNT':
             return {
                 ...state,
-                amount: action.amount
+                amount: action.payload.amount
             }
         default:
             return state;
