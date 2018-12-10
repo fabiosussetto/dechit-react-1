@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // REDUX
-import { connect, Provider } from "react-redux";
+import { connect } from "react-redux";
 // import { store } from './state/store' //* importo lo store per il createStore di Redux // https://redux.js.org/api/createstore
 // ROUTER
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -41,7 +41,6 @@ class App extends Component {
 
     return (
         <Router>
-          {/*<Provider store={store}>*/}
           <div className="">
             <Header />
             <div className="container pt-4">
@@ -52,7 +51,6 @@ class App extends Component {
             </div>
 
           </div>
-          {/*</Provider>*/}
         </Router>
     )
   }

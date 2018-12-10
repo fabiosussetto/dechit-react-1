@@ -12,19 +12,83 @@ const TransactionTitleList = (props) => {
 class TransactionAddForm extends Component {
 
   state = {
-      title: 'coco',
-      amount: 60,
-      descriptions: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    title: 'coco',
+    amount: '',
+    descriptions: '',
+    formErrors: {
+      amount: 'Amount > 0 please!'
+    },
+    amountValid: false,
+    formValid: false,
+
+    validation: {
+      form: false,
+      amount: {
+        status: false,
+        changed : false,
+        error: false
+      },
+      descriptions: {
+        status: false,
+        changed : false,
+        error: false
+      }
     }
+  }
 
   componentDidMount () {
     this.props.dispatch(fetchTitlesList())
   }
 
+  validateField(fieldName, value) {
+    let validation = this.state.validation;
+    let inputStatus = validation.amount.status;
+    let inputError = validation.amount.error;
+
+    switch(fieldName) {
+      case 'amount':
+        inputStatus = value > 0;
+        inputError = inputStatus ? '' : [fieldName]+' is invalid';
+      case 'descriptions':
+        inputStatus = value !== '';
+        inputError = inputStatus ? '' : [fieldName]+' is invalid';
+      break;
+      default:
+        break;
+    }
+
+    this.setState({ validation: {
+                      ...this.state.validation,
+                      [fieldName]: { // fieldName -> primo parametro funzione
+                        status: inputStatus,
+                        error: inputError,
+                      }
+                    }
+                  }, this.validateForm); // callback  dopo srtStatus
+  }
+
+  validateForm() {
+    const valid = this.state.validation;
+    const formValidation = valid.amount.status && valid.descriptions.status
+    this.setState({validation: { ...this.state.validation, form: formValidation } });
+  }
+
+  setValidationClass(fieldName) {
+    var result = fieldName.error ? 'is-invalid' : ''
+    console.log(result);
+    return result
+  }
+
+  setValindationFeedback(fieldName) {
+    return(
+      <div className="invalid-feedback">{fieldName.error}</div>
+    )
+  }
+
   handleInputChange = (event) => {
     const target = event.target;
     const name = target.name;
-    let value = target.value ? target.value : 0
+    let value = target.value ? target.value : ''
 
     if( target.value && target.type === 'number' ) {
       value = parseFloat(target.value);
@@ -32,7 +96,7 @@ class TransactionAddForm extends Component {
 
     this.setState({
       [name]: value
-    });
+    }, () => { this.validateField(name, value) }) // callback x validazione
   }
 
   onSubmit = (event) => {
@@ -44,40 +108,25 @@ class TransactionAddForm extends Component {
         title: this.state.title,
         descriptions: this.state.descriptions,
       }
-    })
+    });
   }
 
   render() {
-/*
-
-<form className="form-inline">
-  <input type="num" className="c-filter-input form-control mr-2">
-    <input type="submit" className="btn btn-success btn-outline-success" value="Filter">
-    </form>
-
-    */
 
     const elems = this.props.transaction_titles.list
+    const validation = this.state.validation;
 
     return (
       <div>
         <div className="row">
           <div className="col-md-12">
-              <form onSubmit={this.onSubmit} className="row">
-                  <div className="col-6 col-sm pr-sm-0">
-                  <input
-                      name="amount"
-                      type="number"
-                      value={this.state.amount}
-                      onChange={this.handleInputChange}
-                      className="c-filter-input form-control mr-2 mb-3"
-                  />
-                  </div>
-                  <div className="col-6 col-sm pr-sm-0">
+              <form onSubmit={this.onSubmit} className="needs-validation">
+                <div className="form-row">
+                  <div className="col-6 col-sm-3 col-md pr-sm-0 mb-2">
                     <select name="title"
                       value={this.state.title}
                       onChange={this.handleInputChange}
-                      className="c-filter-input form-control mr-2 mb-3">
+                      className="form-control">
                       {elems.map((elem) => (
                           <TransactionTitleList
                             elem={elem}
@@ -86,18 +135,41 @@ class TransactionAddForm extends Component {
                         ))}
                     </select>
                   </div>
-                  <div className="col-9 col-sm col-md-6 pr-sm-0">
+                  <div className="col-6 col-sm-3 col-md pr-sm-0 mb-2">
+                    <div className="input-group">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text">€</div>
+                        </div>
+                        <input
+                          placeholder="0"
+                          name="amount"
+                          type="number"
+                          value={this.state.amount}
+                          onChange={this.handleInputChange}
+                          className={`form-control ${this.setValidationClass(validation.amount)}`}
+                        />
+                        {this.setValindationFeedback(validation.amount)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-9 col-sm col-md-6 pr-sm-0 mb-2">
                     <input
-                        name="descriptions"
-                        type="text"
-                        value={this.state.descriptions}
-                        onChange={this.handleInputChange}
-                        className="c-filter-input form-control mr-2 mb-3"
+                      placeholder="Description"
+                      name="descriptions"
+                      type="text"
+                      value={this.state.descriptions}
+                      onChange={this.handleInputChange}
+                      className={`form-control ${this.setValidationClass(validation.descriptions)}`}
                     />
+                    {this.setValindationFeedback(validation.descriptions)}
+                </div>
+                  <div className="col-3 col-sm-auto pr-sm-0 mb-2">
+                      <button type="submit" className={`btn btn-block btn-${validation.form ? 'success': 'secondary' }`} disabled={!validation.form && 'disabled'}>
+                        Add
+                      </button>
                   </div>
-                  <div className="col-3 col-sm-auto pr-sm-0">
-                      <button type="submit" className="btn btn-success btn-block mr-2">Add</button>
-                  </div>
+                </div>
               </form>
           </div>
       </div>

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
-import { fetchTransactions, incrementAmount, removeTransacion, setLoading } from './state/actions'
+import { incrementAmount, removeTransacion } from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
 
@@ -82,7 +82,7 @@ class TransactionList extends Component {
             Remove all
           </button>
         )}
-        {transactions.length == 0 && (
+        {transactions.length === 0 && (
           <button className="btn btn-success btn-sm float-right" onClick={this.onAddTransaction}>
             Add Default
           </button>
