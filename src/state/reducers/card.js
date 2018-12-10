@@ -1,7 +1,7 @@
 export default function card(state, action) {
 
   //* nel nuovo reducer, richiamo l'azione TOGGLE_CARD e ci metto dentro ciò che
-  //* prima veniva gestito nella funzione nel componente di react
+  // prima veniva gestito nella funzione nel componente di react
 
     switch (action.type) {
         case 'TOGGLE_CARD':

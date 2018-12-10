@@ -3,7 +3,7 @@ import React from 'react'
 // Es. di "functional component"
 
 const TransactionCard = (props) => {
-    const { transaction, onIncrementAmount, expanded, onToggleExpand, currency } = props
+    const { transaction, onIncrementAmount, expanded, onToggleExpand, onRemoveTransacion, currency } = props
     return (
         <div className="card p-2 mb-2">
             <div className="d-flex">
@@ -18,10 +18,12 @@ const TransactionCard = (props) => {
                 </div>
 
                 <div className="ml-auto">
-
-                    <button className="btn btn-sm btn-secondary" onClick={onToggleExpand}>
-                      {expanded ? '-' : '+'}
-                    </button>
+                  <button className="btn btn-sm btn-secondary mr-2" onClick={onToggleExpand}>
+                    {expanded ? '-' : '+'}
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={onRemoveTransacion}>
+                    x
+                  </button>
                 </div>
             </div>
 

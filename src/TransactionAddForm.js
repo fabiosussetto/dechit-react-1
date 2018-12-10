@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { fetchTitles } from './state/actions'
+import { fetchTitlesList } from './state/actions'
 
 const TransactionTitleList = (props) => {
   const { elem } = props
@@ -18,7 +18,7 @@ class TransactionAddForm extends Component {
     }
 
   componentDidMount () {
-    this.props.dispatch(fetchTitles())
+    this.props.dispatch(fetchTitlesList())
   }
 
   handleInputChange = (event) => {

@@ -23,10 +23,15 @@ export default function transactions(state, action) {
             ...state,
             list: incrementedTransaction
           }
-        case 'REMOVE_ALL_TRANSACTION':
+        case 'REMOVE_ALL_TRANSACTIONS':
           return {
             ...state,
             list: []
+          }
+        case 'UPDATE_TRANSACTIONS_LIST':
+          return {
+            ...state,
+            list: action.list
           }
         default:
             return state;

@@ -17,7 +17,7 @@ const initialState = {
         amount: 0
     },
     //* creo il mio stato
-    //* TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
+    //* ??? TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
     expandedTransactionIds: {
       ids: []
     },

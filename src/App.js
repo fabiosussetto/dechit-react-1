@@ -15,8 +15,7 @@ import MainMenu from './MainMenu'
 class App extends Component {
 
   //* elimino lo stato nel componente per spostarlo in redux
-
-  //* creo un'azione e ne faccio il dispatch per gestirla in redux
+  // e creo un'azione e ne faccio il dispatch per gestirla in redux
   toggleCardExpanded = (transaction) => {
     this.props.dispatch(toggleCard(transaction));
   }

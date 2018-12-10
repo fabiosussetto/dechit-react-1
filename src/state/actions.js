@@ -20,7 +20,7 @@ export function fetchTransactions() {
 }
 
 //* esporto la mia funzione nelle actions, poi ne faccio il dispatch per passarla
-//* già "pulita" al reducer (meglio lasciare il reducwer più pulito possibile)
+// già "pulita" al reducer (meglio lasciare il reducwer più pulito possibile)
 export function incrementAmount(transactionId) {
   return (dispatch, getState) => {
     const state = getState()
@@ -41,12 +41,28 @@ export function incrementAmount(transactionId) {
   };
 }
 
-export function fetchTitles() {
+//* ??? chiedere se è più corretto usare un'azione "generica" tipo SET_TRANSACTIONS
+//  oppure se è meglio crearne una ad hoc che però aggiorni i dati nello stemmo modo.
+export function removeTransacion(transactionId) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const transactions = state.transactions.list
+    const newTransactions = transactions.filter(transaction => transaction.id!==transactionId);
+    dispatch({
+      type: 'SET_TRANSACTIONS',
+      payload: {
+          list: newTransactions
+      }
+    });
+  };
+}
+
+export function fetchTitlesList() {
   return (dispatch, getState) => {
       axios.get('http://www.martapetrella.com/dechit-corso-titles.json')
           .then((resp) => {
               dispatch({
-                  type: 'SET_TRANSACTION_TITLES_LIST',
+                  type: 'SET_TYPES_LIST',
                   titles: resp.data
               });
           })

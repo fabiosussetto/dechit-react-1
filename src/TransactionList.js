@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
-import { fetchTransactions, incrementAmount } from './state/actions'
+import { fetchTransactions, incrementAmount, removeTransacion } from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
 
@@ -12,7 +12,7 @@ class TransactionList extends Component {
 
   isCardExpanded = (transaction,expandedIds) => {
     //* indica se la transazione passata esiste o no nell'array di quelle espanse.
-    //* ritorna un boolean che mi serve come condizione nel componente della card
+    // ritorna un boolean che mi serve come condizione nel componente della card
     const result = expandedIds.ids.indexOf(transaction.id) > -1;
     return result
   }
@@ -24,7 +24,7 @@ class TransactionList extends Component {
   //* spostata da App
   onClearTransactions = () => {
     this.props.dispatch({
-      type: 'REMOVE_ALL_TRANSACTION',
+      type: 'REMOVE_ALL_TRANSACTIONS',
       payload: { amount: 400, title: 'asdasd' }
     })
   }
@@ -32,6 +32,10 @@ class TransactionList extends Component {
   //* spostata da App
   incrementAmount = (transactionId) => {
     this.props.dispatch(incrementAmount(transactionId))
+  }
+
+  removeTransacion = (transactionId) => {
+    this.props.dispatch(removeTransacion(transactionId))
   }
 
   render() {
@@ -46,15 +50,16 @@ class TransactionList extends Component {
       )
     }
 
+    //* passo alla mia funzione isCardExpanded() sia la transazione corrente 
+    // che l array delle transazioni espanse da controllare
     const listElements = transactions.map((transaction) => (
       <TransactionCard
         onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
-        //* passo alla mia funzione isCardExpanded() sia la transazione corrente
-        //* che l'array delle transazioni espanse da controllare
         expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
         transaction={transaction}
         currency={currency}
         onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
+        onRemoveTransacion={this.removeTransacion.bind(this, transaction.id)}
         key={transaction.id}
       />
     ))
