@@ -60,3 +60,12 @@ export function removeTransaction(newTransactions) {
         }
     }
 }
+
+export function expandedTransactionIds(transactionIds) {
+    return {
+        type: 'TOGGLE_CARD_EXPANDED',
+        payload: {
+            listIds: [...transactionIds]
+        }
+    }
+}

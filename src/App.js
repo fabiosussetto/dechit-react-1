@@ -7,32 +7,26 @@ import './App.css';
 
 import TransactionList from './TransactionList'
 import * as actions from './state/actions'
-import { getFilteredTransactions } from './state/selectors'
+import {getFilteredTransactions} from './state/selectors'
 
 
 class App extends Component {
 
-  state = {
-    expandedTransactionIds: [],
-  }
-
   toggleCardExpanded = (transaction) => {
-    const {expandedTransactionIds} = this.state
+    const {expandedTransactionIds} = this.props
     const index = expandedTransactionIds.indexOf(transaction.id)
 
     if (index === -1) {
-      this.setState({
-        expandedTransactionIds: [...expandedTransactionIds, transaction.id]
-      })
+      const newExpandedTransactionIds = [...expandedTransactionIds, transaction.id]
+      this.props.dispatch(actions.expandedTransactionIds(newExpandedTransactionIds))
+     
       return
     }
 
     const updatedIds = [...expandedTransactionIds]
     updatedIds.splice(index, 1)
 
-    this.setState({
-      expandedTransactionIds: updatedIds
-    })
+    this.props.dispatch(actions.expandedTransactionIds(updatedIds))
 
   }
 
@@ -58,8 +52,8 @@ class App extends Component {
   }
 
   render() {
-    const { expandedTransactionIds } = this.state
-    
+    const { expandedTransactionIds } = this.props
+
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onRemoveTransaction: this.removeTransaction,
@@ -85,6 +79,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     transactions: getFilteredTransactions(state),
+    expandedTransactionIds: state.expandedTransactionIds.listIds
   }
 }
 
