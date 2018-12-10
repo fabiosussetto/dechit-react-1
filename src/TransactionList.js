@@ -62,7 +62,6 @@ class TransactionList extends Component {
   
 }
 
-
 const mapStateToProps = (state) => {
   return {
     transactions: getFilteredTransactions(state),

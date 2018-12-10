@@ -40,6 +40,7 @@ class TransactionFilter extends Component {
   }
 
   render() {
+    const {callbacks, expandedIds, transactions} = this.props
     return (
       <form onSubmit={this.onSubmit}>
         Amount: 
@@ -61,8 +62,15 @@ class TransactionFilter extends Component {
         </div>
         
         <div className="mt-2">
-          <button type="submit" className="btn btn-sm btn-primary mr-2">Filter</button>
-          <button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button>
+          <div className="row">
+            <div className="col-1"><button type="submit" className="btn btn-sm btn-primary">Filter</button></div>
+            <div className="col-1"><button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button></div>
+            <div className="col-10 text-right">
+              <button type="button" className="btn btn-sm btn-dark" onClick={callbacks.allToggleCardExpanded}>
+                {expandedIds.length === transactions.length ? 'Collapse All' : 'Expand All'}
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     )

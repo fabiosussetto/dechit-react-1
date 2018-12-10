@@ -16,7 +16,7 @@ class App extends Component {
     const {expandedTransactionIds} = this.props
     const index = expandedTransactionIds.indexOf(transaction.id)
 
-    if (index === -1) {
+    if(index === -1) {
       const newExpandedTransactionIds = [...expandedTransactionIds, transaction.id]
       this.props.dispatch(actions.expandedTransactionIds(newExpandedTransactionIds))
      
@@ -27,7 +27,19 @@ class App extends Component {
     updatedIds.splice(index, 1)
 
     this.props.dispatch(actions.expandedTransactionIds(updatedIds))
+  }
 
+  allToggleCardExpanded = () => {
+    const {transactions, expandedTransactionIds} = this.props
+    if(expandedTransactionIds.length < transactions.length) {
+      const transactionsIds = transactions.map(transaction => transaction.id)
+      this.props.dispatch(actions.expandedTransactionIds(transactionsIds))
+
+      return
+    }
+    
+    const removeTransactionsIds = []
+    this.props.dispatch(actions.expandedTransactionIds(removeTransactionsIds))
   }
 
   clearTransactions = () => {
@@ -52,20 +64,21 @@ class App extends Component {
   }
 
   render() {
-    const { expandedTransactionIds } = this.props
+    const { transactions, expandedTransactionIds } = this.props
 
     const callbacks = {
       onIncrementAmount: this.incrementAmount,
       onRemoveTransaction: this.removeTransaction,
       onClearTransactions: this.clearTransactions,
-      toggleCardExpanded: this.toggleCardExpanded
+      toggleCardExpanded: this.toggleCardExpanded,
+      allToggleCardExpanded: this.allToggleCardExpanded
     }
 
     return (
       <div className="container">
         <h2>My Bank Account</h2>
         <div className="mt-2 mb-2">
-          <TransactionFilter />
+          <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />
         </div>
         <TransactionList 
           expandedIds={expandedTransactionIds}
