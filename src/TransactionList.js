@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
-import { fetchTransactions, incrementAmount, removeTransacion } from './state/actions'
+import { fetchTransactions, incrementAmount, removeTransacion, setLoading } from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
 
@@ -17,15 +17,22 @@ class TransactionList extends Component {
     return result
   }
 
-  componentDidMount () {
-    this.props.dispatch(fetchTransactions())
-  }
-
   //* spostata da App
   onClearTransactions = () => {
     this.props.dispatch({
       type: 'REMOVE_ALL_TRANSACTIONS',
       payload: { amount: 400, title: 'asdasd' }
+    })
+  }
+
+  onAddTransaction = () => {
+    this.props.dispatch({
+      type: 'ADD_TRANSACTION',
+      payload: {
+        amount: '10',
+        title: 'Default',
+        descriptions: 'Woooha!',
+      }
     })
   }
 
@@ -50,7 +57,7 @@ class TransactionList extends Component {
       )
     }
 
-    //* passo alla mia funzione isCardExpanded() sia la transazione corrente 
+    //* passo alla mia funzione isCardExpanded() sia la transazione corrente
     // che l array delle transazioni espanse da controllare
     const listElements = transactions.map((transaction) => (
       <TransactionCard
@@ -70,9 +77,16 @@ class TransactionList extends Component {
         <div>
           {listElements}
         </div>
-        <button className="btn btn-secondary" onClick={this.onClearTransactions}>
-          Remove all
-        </button>
+        {transactions.length > 0 && (
+          <button className="btn btn-danger btn-sm float-right" onClick={this.onClearTransactions}>
+            Remove all
+          </button>
+        )}
+        {transactions.length == 0 && (
+          <button className="btn btn-success btn-sm float-right" onClick={this.onAddTransaction}>
+            Add Default
+          </button>
+        )}
       </div>
     )
   }

@@ -5,7 +5,7 @@ import { setFilterAmount } from './state/actions'
 const shortcuts = [
     { label: 'Cheap', maxAmount: 10 },
     { label: 'Average', maxAmount: 30 },
-    { label: 'Expensive', maxAmount: 9999 }
+    { label: 'Expensive', maxAmount: 70 }
 ]
 
 class TransactionFilter extends Component {

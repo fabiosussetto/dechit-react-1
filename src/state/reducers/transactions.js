@@ -6,6 +6,13 @@ export default function transactions(state, action) {
                 loading: false,
                 list:  action.payload.list
             }
+
+        case 'SET_LOADING':
+            const loadingStatus = action.status
+            return {
+                ...state,
+                loading: loadingStatus,
+            }
         case 'APPEND_TRANSACTIONS':
             return {
                 ...state,

@@ -4,6 +4,10 @@ export function setFilterAmount (amount) {
     return { type: 'SET_FILTER_AMOUNT', amount: amount }
 }
 
+export function setLoading(status) {
+    return { type: 'SET_LOADING', status: status }
+}
+
 export function fetchTransactions() {
   return (dispatch, getState) => {
     //axios.get('https://my.api.mockaroo.com/transactions?key=f02d0440')
@@ -15,6 +19,13 @@ export function fetchTransactions() {
                       list: resp.data
                   }
               });
+          }, error => {
+            dispatch({
+                type: 'SET_TRANSACTIONS',
+                payload: {
+                    list: []
+                }
+            });
           })
   };
 }
@@ -61,20 +72,16 @@ export function fetchTitlesList() {
   return (dispatch, getState) => {
       axios.get('http://www.martapetrella.com/dechit-corso-titles.json')
           .then((resp) => {
+            console.log( resp.data );
               dispatch({
                   type: 'SET_TYPES_LIST',
                   titles: resp.data
               });
+          }, error => {
+              dispatch({
+                  type: 'SET_TYPES_LIST',
+                  titles: [{title: "Default", value: "default"}]
+              });
           })
   };
-}
-
-export function toggleCard(transaction) {
-  return (dispatch, getstate) => {
-    //* passo i parametri al reducer
-    dispatch({
-      type: 'TOGGLE_CARD',
-      payload: {transaction: transaction}
-    });
-  }
 }
