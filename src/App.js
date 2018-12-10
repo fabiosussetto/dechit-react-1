@@ -9,7 +9,6 @@ import TransactionList from './TransactionList'
 import * as actions from './state/actions'
 import {getFilteredTransactions} from './state/selectors'
 
-
 class App extends Component {
 
   toggleCardExpanded = (transaction) => {
@@ -31,6 +30,7 @@ class App extends Component {
 
   allToggleCardExpanded = () => {
     const {transactions, expandedTransactionIds} = this.props
+    
     if(expandedTransactionIds.length < transactions.length) {
       const transactionsIds = transactions.map(transaction => transaction.id)
       this.props.dispatch(actions.expandedTransactionIds(transactionsIds))

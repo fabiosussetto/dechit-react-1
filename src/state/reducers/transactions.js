@@ -17,6 +17,11 @@ export default function transactions(state, action) {
                 ...state,
                 list: [...state.list, newTransaction]
             }
+        case 'ADD_TRANSACTION_FROM_FORM':
+            return {
+                ...state,
+                list: action.payload.list
+            }
         case 'CLEAR_TRANSACTIONS':
             return {
                 ...state,
