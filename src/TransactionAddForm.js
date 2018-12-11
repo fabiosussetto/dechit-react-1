@@ -9,29 +9,43 @@ const CategoriesList = (props) => {
   )
 }
 
-class TransactionAddForm extends Component {
-
-  state = {
-    title: '',
-    amount: '',
-    description: '',
-    validation: {
-      form: false,
-      amount: {
-        changed : false,
-        error: false
-      },
-      description: {
-        changed : false,
-        error: false
-      }
+const initialState = {
+  category: '',
+  amount: '',
+  description: '',
+  validation: {
+    msg: '',
+    form: false,
+    //* ??? è + corretto inizializzare ogni input o creare uno array vuoto
+    // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
+    category: {
+      changed : false,
+      error: false
+    },
+    amount: {
+      changed : false,
+      error: false
+    },
+    description: {
+      changed : false,
+      error: false
     }
   }
+};
+
+class TransactionAddForm extends Component {
+
+  state = initialState
 
   validateNewTransaction(fieldName, value){
     let error = false
 
     switch(fieldName) {
+      case 'category':
+        if( ! value || value === '' ) {
+          error = 'is required'
+        }
+      break;
       case 'amount':
         if( value < 1 ) {
           error = 'is too small'
@@ -42,6 +56,8 @@ class TransactionAddForm extends Component {
       case 'description':
         if( value === '' ) {
           error = 'is empty'
+        } else if( value.length < 3 ) {
+          error = 'is too short (min 4 ch.)'
         } else if( value.length > 20 ) {
           error = 'is too big (max 20 ch.)'
         }
@@ -103,23 +119,32 @@ class TransactionAddForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.dispatch(addNewTransaction(this.state));
+    console.log('this.state',this.state);
+    const finalState = initialState
+    finalState.validation.msg = 'Done! Check the List :)'
+    console.log(finalState);
+    this.setState(finalState)
   }
 
   render() {
+    //const initialState = this.state;
+
     const { currency, categories } = this.props
     const { validation } = this.state;
     return (
       <div>
+      {validation.msg && <div className="alert alert-success" role="alert">{validation.msg}</div>}
         <div className="row">
           <div className="col-md-12">
               <form onSubmit={this.onSubmit} className="needs-validation">
                 <div className="form-row">
                   <div className="col-6 col-sm-3 col-md pr-sm-0 mb-2">
-                    <select name="title"
-                      value={this.state.title}
+                    <select name="category"
+                      value={this.state.category}
                       onChange={this.handleInputChange}
-                      className="form-control"
+                      className={`form-control ${this.setValidationClass(validation.category)}`}
                     >
+                      <option value='' defaultValue>Choose cat.</option>
                       {categories.list.map((cat) => (
                           <CategoriesList
                             elem={cat}
@@ -127,6 +152,7 @@ class TransactionAddForm extends Component {
                           />
                         ))}
                     </select>
+                  {this.setValindationFeedback(validation.category)}
                   </div>
                   <div className="col-6 col-sm-3 col-md pr-sm-0 mb-2">
                     <div className="input-group">

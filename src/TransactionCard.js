@@ -11,7 +11,7 @@ const TransactionCard = (props) => {
                     <h5 className="card-title">
                       {transaction.label}
                       <small className="ml-2">
-                        [{transaction.title}]
+                        [{transaction.category}]
                       </small>
                     </h5>
                     <div className="card-text">

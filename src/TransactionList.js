@@ -19,7 +19,6 @@ class TransactionList extends Component {
   onClearTransactions = () => {
     this.props.dispatch({
       type: 'REMOVE_ALL_TRANSACTIONS',
-      payload: { amount: 400, title: 'asdasd' }
     })
   }
 
@@ -28,7 +27,6 @@ class TransactionList extends Component {
       type: 'ADD_TRANSACTION',
       payload: {
         amount: '10',
-        title: 'Default',
         description: 'Woooha!',
       }
     })
@@ -58,7 +56,7 @@ class TransactionList extends Component {
     //* Se voglio cambiare il titolo della transazione con il nome della lista titoli
     // e non col valore come è scritto nel json, devo mappare le mie transazioni
     const transactionsTransformed = transactions.map(function(transaction) {
-      // finto array  sostituire con titleList
+      // finto array  sostituire con le categorie da api
       const catsObjs = [ {
               name: "Books",
               value: "books"
@@ -74,7 +72,7 @@ class TransactionList extends Component {
             } ]
 
        //* filtro solo il titolo corrente
-       let curObj = catsObjs.filter(item => item.value === transaction.title)
+       let curObj = catsObjs.filter(item => item.value === transaction.category)
        //* fallback se non ci sono risultati in filter
        curObj = (curObj.length > 0) ? curObj : [{
                                                  name: "Unknown",
@@ -82,14 +80,14 @@ class TransactionList extends Component {
                                                }]
        //* estraggo il primo (e unico) elemento
        //* ??? TODO trovare modo migliore si shift!
-       const curTitle = curObj.shift();
+       const current = curObj.shift();
 
        console.log( curObj );
        //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
        return transaction = {
          ...transaction,
-         title: curTitle.value,
-         label: curTitle.name
+         category: current.value,
+         label: current.name
        }
 
     } )

@@ -91,7 +91,7 @@ export function addNewTransaction(state) {
     type: 'ADD_TRANSACTION',
     payload: {
       amount: state.amount,
-      title: state.title,
+      category: state.category,
       description: state.description,
     }
   }
