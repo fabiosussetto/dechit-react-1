@@ -10,7 +10,11 @@ const Header = (props) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <MainMenu />
+        <MainMenu
+          listClass="navbar-nav ml-auto"
+          elemsClass="nav-item"
+          linksClass="nav-link"
+        />
         </div>
       </nav>
     )

@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const url = 'http://www.martapetrella.com/';
+
 export function setFilterAmount (amount) {
     return { type: 'SET_FILTER_AMOUNT', amount: amount }
 }
@@ -9,10 +11,9 @@ export function setLoading(status) {
 }
 
 export function fetchTransactions() {
+  const apiUrl = url+'dechit-corso.json';
   return (dispatch, getState) => {
-    //axios.get('https://my.api.mockaroo.com/transactions?key=f02d0440')
-    axios.get('http://www.martapetrella.com/dechit-corso.json')
-          .then((resp) => {
+    axios.get(apiUrl).then((resp) => {
               dispatch({
                   type: 'SET_TRANSACTIONS',
                   payload: {
@@ -69,10 +70,9 @@ export function removeTransacion(transactionId) {
 }
 
 export function fetchTitlesList() {
+  const apiUrl = url+'dechit-corso-titles.json';
   return (dispatch, getState) => {
-      axios.get('http://www.martapetrella.com/dechit-corso-titles.json')
-          .then((resp) => {
-            console.log( resp.data );
+    axios.get(apiUrl).then((resp) => {
               dispatch({
                   type: 'SET_TYPES_LIST',
                   titles: resp.data
@@ -84,4 +84,15 @@ export function fetchTitlesList() {
               });
           })
   };
+}
+
+export function addNewTransaction(state) {
+  return {
+    type: 'ADD_TRANSACTION',
+    payload: {
+      amount: state.amount,
+      title: state.title,
+      descriptions: state.descriptions,
+    }
+  }
 }

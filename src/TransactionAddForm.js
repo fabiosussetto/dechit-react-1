@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { fetchTitlesList } from './state/actions'
+import { fetchTitlesList, addNewTransaction } from './state/actions'
 
 const TransactionTitleList = (props) => {
   const { elem } = props
@@ -15,12 +15,6 @@ class TransactionAddForm extends Component {
     title: 'coco',
     amount: '',
     descriptions: '',
-    formErrors: {
-      amount: 'Amount > 0 please!'
-    },
-    amountValid: false,
-    formValid: false,
-
     validation: {
       form: false,
       amount: {
@@ -48,10 +42,11 @@ class TransactionAddForm extends Component {
     switch(fieldName) {
       case 'amount':
         inputStatus = value > 0;
-        inputError = inputStatus ? '' : [fieldName]+' is invalid';
+        inputError = inputStatus ? '' : [fieldName]+' is required';
+      break;
       case 'descriptions':
         inputStatus = value !== '';
-        inputError = inputStatus ? '' : [fieldName]+' is invalid';
+        inputError = inputStatus ? '' : [fieldName]+' is required';
       break;
       default:
         break;
@@ -79,6 +74,8 @@ class TransactionAddForm extends Component {
     return result
   }
 
+
+  //* TODO fare componente???
   setValindationFeedback(fieldName) {
     return(
       <div className="invalid-feedback">{fieldName.error}</div>
@@ -101,18 +98,10 @@ class TransactionAddForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.dispatch({
-      type: 'ADD_TRANSACTION',
-      payload: {
-        amount: this.state.amount,
-        title: this.state.title,
-        descriptions: this.state.descriptions,
-      }
-    });
+    this.props.dispatch(addNewTransaction(this.state));
   }
 
   render() {
-
     const elems = this.props.transaction_titles.list
     const validation = this.state.validation;
 
@@ -165,7 +154,9 @@ class TransactionAddForm extends Component {
                     {this.setValindationFeedback(validation.descriptions)}
                 </div>
                   <div className="col-3 col-sm-auto pr-sm-0 mb-2">
-                      <button type="submit" className={`btn btn-block btn-${validation.form ? 'success': 'secondary' }`} disabled={!validation.form && 'disabled'}>
+                      <button type="submit"
+                              className={`btn btn-block btn-${validation.form ? 'success': 'secondary' }`}
+                              disabled={!validation.form && 'disabled'}>
                         Add
                       </button>
                   </div>
