@@ -6,7 +6,7 @@ const ExpandCollapse = (props) => {
         <div className="row mt-3">
             <div className="col-12">
                 <p className="card-text">
-                    {transaction.descriptions}
+                    {transaction.description}
                 </p>
             </div>
         </div>

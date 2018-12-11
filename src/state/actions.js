@@ -27,9 +27,9 @@ export function addTransaction() {
     return { 
         type: 'ADD_TRANSACTION', 
         payload: { 
-            title: 'asdasd',
+            category: 'asdasd',
             amount: 400, 
-            descriptions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit dolor quis lectus feugiat, a eleifend dui varius. Duis est neque, egestas pellentesque iaculis nec, accumsan non nunc. Curabitur eget egestas tellus, quis sodales nisl. Nullam egestas ut dui vel iaculis. Quisque vel odio pellentesque, tincidunt nulla non, mollis erat. Morbi ornare libero ante. Integer suscipit varius nibh, eget viverra lacus posuere et. Fusce sed ante magna. Etiam ullamcorper pretium lacinia.'
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit dolor quis lectus feugiat, a eleifend dui varius. Duis est neque, egestas pellentesque iaculis nec, accumsan non nunc. Curabitur eget egestas tellus, quis sodales nisl. Nullam egestas ut dui vel iaculis. Quisque vel odio pellentesque, tincidunt nulla non, mollis erat. Morbi ornare libero ante. Integer suscipit varius nibh, eget viverra lacus posuere et. Fusce sed ante magna. Etiam ullamcorper pretium lacinia.'
         } 
     }
 }

@@ -8,7 +8,7 @@ const TransactionCard = (props) => {
         <div className="card p-2 mb-2">
             <div className="d-flex">
                 <div>
-                    <h5 className="card-title">{transaction.title}</h5>
+                    <h5 className="card-title">{transaction.category}</h5>
                     <p className="card-text">
                         Amount: {transaction.amount}
                     </p>

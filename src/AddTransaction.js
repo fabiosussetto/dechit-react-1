@@ -12,19 +12,19 @@ class AddTransaction extends Component {
 
         this.state = {
             id: 0,
-            title: '',
+            category: '',
             amount: 0,
-            descriptions: ''
+            description: ''
         }
-        this.handleChangeTitle = this.handleChangeTitle.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleChangeAmount = this.handleChangeAmount.bind(this);
         this.handleChangeDescription = this.handleChangeDescription.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    handleChangeTitle = (event) => {
+    handleChangeCategory = (event) => {
         this.setState({
-            title: event.target.value
+            category: event.target.value
         });
     }
 
@@ -36,7 +36,7 @@ class AddTransaction extends Component {
 
     handleChangeDescription = (event) => {
         this.setState({
-            descriptions: event.target.value
+            description: event.target.value
         });
     }
 
@@ -53,9 +53,9 @@ class AddTransaction extends Component {
     resetForm = () => {
         this.setState({
             id: 0,
-            title: '',
+            category: '',
             amount: 0,
-            descriptions: ''
+            description: ''
         })
     }
 
@@ -65,8 +65,8 @@ class AddTransaction extends Component {
                 <h2>Add new transaction</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="title">Title:</label>
-                        <input type="text" className="form-control" id="title" placeholder="Enter title" name="title" value={this.state.title} onChange={this.handleChangeTitle} required></input>
+                        <label htmlFor="category">Category:</label>
+                        <input type="text" className="form-control" id="category" placeholder="Enter category" name="category" value={this.state.category} onChange={this.handleChangeCategory} required></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="amount">Amount:</label>
@@ -74,7 +74,7 @@ class AddTransaction extends Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Description:</label>
-                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.descriptions} onChange={this.handleChangeDescription} required></textarea>
+                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.description} onChange={this.handleChangeDescription} required></textarea>
                     </div>
                     <button type="submit" className="btn btn-primary" data-target="#myModal">Send</button>
                 </form>
