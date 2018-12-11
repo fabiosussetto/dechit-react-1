@@ -1,10 +1,10 @@
-export default function transaction_titles_list(state, action) {
+export default function categories(state, action) {
 
     switch (action.type) {
-        case 'SET_TYPES_LIST':
+        case 'SET_CATEGORIES_LIST':
             return {
                 ...state,
-                list:  action.titles
+                list:  action.categories
             }
         default:
             return state;

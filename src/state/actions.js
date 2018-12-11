@@ -69,18 +69,18 @@ export function removeTransacion(transactionId) {
   };
 }
 
-export function fetchTitlesList() {
-  const apiUrl = url+'dechit-corso-titles.json';
+export function fetchCategoriesList() {
+  const apiUrl = url+'dechit-corso-categories.json';
   return (dispatch, getState) => {
     axios.get(apiUrl).then((resp) => {
               dispatch({
-                  type: 'SET_TYPES_LIST',
-                  titles: resp.data
+                  type: 'SET_CATEGORIES_LIST',
+                  categories: resp.data
               });
           }, error => {
               dispatch({
-                  type: 'SET_TYPES_LIST',
-                  titles: [{title: "Default", value: "default"}]
+                  type: 'SET_CATEGORIES_LIST',
+                  categories: [{title: "Default", value: "default"}]
               });
           })
   };
@@ -92,7 +92,7 @@ export function addNewTransaction(state) {
     payload: {
       amount: state.amount,
       title: state.title,
-      descriptions: state.descriptions,
+      description: state.description,
     }
   }
 }

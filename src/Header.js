@@ -11,7 +11,7 @@ const Header = (props) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <MainMenu
-          listClass="navbar-nav ml-auto"
+          listClass="navbar-nav ml-auto mr-2"
           elemsClass="nav-item"
           linksClass="nav-link"
         />

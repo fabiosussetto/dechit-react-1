@@ -1,84 +1,86 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { fetchTitlesList, addNewTransaction } from './state/actions'
+import { addNewTransaction } from './state/actions'
 
-const TransactionTitleList = (props) => {
+const CategoriesList = (props) => {
   const { elem } = props
   return (
-    <option value={elem.value}>{elem.title}</option>
+    <option value={elem.value}>{elem.name}</option>
   )
 }
 
 class TransactionAddForm extends Component {
 
   state = {
-    title: 'coco',
+    title: '',
     amount: '',
-    descriptions: '',
+    description: '',
     validation: {
       form: false,
       amount: {
-        status: false,
         changed : false,
         error: false
       },
-      descriptions: {
-        status: false,
+      description: {
         changed : false,
         error: false
       }
     }
   }
 
-  componentDidMount () {
-    this.props.dispatch(fetchTitlesList())
-  }
-
-  validateField(fieldName, value) {
-    let validation = this.state.validation;
-    let inputStatus = validation.amount.status;
-    let inputError = validation.amount.error;
+  validateNewTransaction(fieldName, value){
+    let error = false
 
     switch(fieldName) {
       case 'amount':
-        inputStatus = value > 0;
-        inputError = inputStatus ? '' : [fieldName]+' is required';
+        if( value < 1 ) {
+          error = 'is too small'
+        } else if( value > 100 ) {
+          error = 'is too big (max 99)'
+        }
       break;
-      case 'descriptions':
-        inputStatus = value !== '';
-        inputError = inputStatus ? '' : [fieldName]+' is required';
+      case 'description':
+        if( value === '' ) {
+          error = 'is empty'
+        } else if( value.length > 30 ) {
+          error = 'is too big (max 30 ch.)'
+        }
       break;
       default:
-        break;
+        error = false
+      break;
     }
 
+    return error ? [fieldName]+' '+error : false
+  }
+
+  //* ??? c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
+  validateField(name, value, error) {
+
     this.setState({ validation: {
-                      ...this.state.validation,
-                      [fieldName]: { // fieldName -> primo parametro funzione
-                        status: inputStatus,
-                        error: inputError,
-                      }
+                    ...this.state.validation,
+                    [name]: { // name -> primo parametro funzione
+                      error: error,
                     }
-                  }, this.validateForm); // callback  dopo srtStatus
+                  }
+                }, this.validateForm); // callback dopo setState
   }
 
   validateForm() {
     const valid = this.state.validation;
-    const formValidation = valid.amount.status && valid.descriptions.status
+    const formValidation = ! valid.amount.error && ! valid.description.error
     this.setState({validation: { ...this.state.validation, form: formValidation } });
   }
 
-  setValidationClass(fieldName) {
-    var result = fieldName.error ? 'is-invalid' : ''
-    console.log(result);
+  setValidationClass(name) {
+    var result = name.error ? 'is-invalid' : ''
     return result
   }
 
-
   //* TODO fare componente???
-  setValindationFeedback(fieldName) {
+  setValindationFeedback(name) {
     return(
-      <div className="invalid-feedback">{fieldName.error}</div>
+      <div className="invalid-feedback">{name.error}</div>
     )
   }
 
@@ -91,9 +93,11 @@ class TransactionAddForm extends Component {
       value = parseFloat(target.value);
     }
 
+    const result = this.validateNewTransaction(name, value);
+
     this.setState({
       [name]: value
-    }, () => { this.validateField(name, value) }) // callback x validazione
+    }, () => { this.validateField(name, value, result) }) // callback x validazione
   }
 
   onSubmit = (event) => {
@@ -102,9 +106,8 @@ class TransactionAddForm extends Component {
   }
 
   render() {
-    const elems = this.props.transaction_titles.list
-    const validation = this.state.validation;
-
+    const { currency, categories } = this.props
+    const { validation } = this.state;
     return (
       <div>
         <div className="row">
@@ -115,11 +118,12 @@ class TransactionAddForm extends Component {
                     <select name="title"
                       value={this.state.title}
                       onChange={this.handleInputChange}
-                      className="form-control">
-                      {elems.map((elem) => (
-                          <TransactionTitleList
-                            elem={elem}
-                            key={elem.value}
+                      className="form-control"
+                    >
+                      {categories.list.map((cat) => (
+                          <CategoriesList
+                            elem={cat}
+                            key={cat.value}
                           />
                         ))}
                     </select>
@@ -128,7 +132,9 @@ class TransactionAddForm extends Component {
                     <div className="input-group">
                       <div className="input-group">
                         <div className="input-group-prepend">
-                          <div className="input-group-text">€</div>
+                          <div className="input-group-text">
+                            {currency}
+                          </div>
                         </div>
                         <input
                           placeholder="0"
@@ -145,13 +151,13 @@ class TransactionAddForm extends Component {
                   <div className="col-9 col-sm col-md-6 pr-sm-0 mb-2">
                     <input
                       placeholder="Description"
-                      name="descriptions"
+                      name="description"
                       type="text"
-                      value={this.state.descriptions}
+                      value={this.state.description}
                       onChange={this.handleInputChange}
-                      className={`form-control ${this.setValidationClass(validation.descriptions)}`}
+                      className={`form-control ${this.setValidationClass(validation.description)}`}
                     />
-                    {this.setValindationFeedback(validation.descriptions)}
+                    {this.setValindationFeedback(validation.description)}
                 </div>
                   <div className="col-3 col-sm-auto pr-sm-0 mb-2">
                       <button type="submit"
@@ -171,7 +177,8 @@ class TransactionAddForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    transaction_titles: state.transaction_titles
+    currency: state.currency,
+    categories: state.categories
   }
 }
 

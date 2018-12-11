@@ -4,7 +4,6 @@ import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
 import { incrementAmount, removeTransacion } from './state/actions'
-
 import { getFilteredTransactions } from './state/selectors'
 
 
@@ -17,7 +16,6 @@ class TransactionList extends Component {
     return result
   }
 
-  //* spostata da App
   onClearTransactions = () => {
     this.props.dispatch({
       type: 'REMOVE_ALL_TRANSACTIONS',
@@ -31,12 +29,11 @@ class TransactionList extends Component {
       payload: {
         amount: '10',
         title: 'Default',
-        descriptions: 'Woooha!',
+        description: 'Woooha!',
       }
     })
   }
 
-  //* spostata da App
   incrementAmount = (transactionId) => {
     this.props.dispatch(incrementAmount(transactionId))
   }
@@ -46,9 +43,10 @@ class TransactionList extends Component {
   }
 
   render() {
-    //* uso le props mappate con mapStateToProps
+    //* uso le props prese dallo stato generale e mappate con mapStateToProps
     const { transactions, callbacks, loading, expandedTransactionIds, currency } = this.props
 
+    //* se loading è true, ritorno solo il loader stoppando così l'esecuzione
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
@@ -57,26 +55,52 @@ class TransactionList extends Component {
       )
     }
 
+    //* Se voglio cambiare il titolo della transazione con il nome della lista titoli
+    // e non col valore come è scritto nel json, devo mappare le mie transazioni
+    const transactionsTransformed = transactions.map(function(transaction) {
+      // finto array  sostituire con titleList
+      const catsObjs = [ {
+              name: "Books",
+              value: "books"
+              }, {
+              name: "Cat food",
+              value: "cat"
+              }, {
+              name: "Home",
+              value: "home"
+              }, {
+              name: "Grocery",
+              value: "grocery"
+            } ]
+
+       //* filtro solo il titolo corrente
+       const curObj = catsObjs.filter(item => item.value === transaction.title)
+       //* estraggo il primo (e unico) elemento
+       //* ??? TODO trovare modo migliore si shift!
+       const curTitle = curObj.shift();
+       //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
+       return transaction = { ...transaction, label: curTitle.name }
+
+    } )
+
     //* passo alla mia funzione isCardExpanded() sia la transazione corrente
     // che l array delle transazioni espanse da controllare
-    const listElements = transactions.map((transaction) => (
-      <TransactionCard
-        onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
-        expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
-        transaction={transaction}
-        currency={currency}
-        onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
-        onRemoveTransacion={this.removeTransacion.bind(this, transaction.id)}
-        key={transaction.id}
-      />
+    const listElements = transactionsTransformed.map((transaction) => (
+        <TransactionCard
+          onToggleExpand={() => callbacks.toggleCardExpanded(transaction) }
+          expanded={this.isCardExpanded(transaction,expandedTransactionIds)}
+          transaction={transaction}
+          currency={currency}
+          onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
+          onRemoveTransacion={this.removeTransacion.bind(this, transaction.id)}
+          key={transaction.id}
+        />
     ))
 
     return (
       <div>
         <TransactionFilter />
-        <div>
-          {listElements}
-        </div>
+        {listElements}
         {transactions.length > 0 && (
           <button className="btn btn-danger btn-sm float-right" onClick={this.onClearTransactions}>
             Remove all
@@ -100,7 +124,9 @@ const mapStateToProps = (state) => {
     currency: state.currency,
     loading: state.transactions.loading,
     //* mappo nelle props anche le transazioni espanse per usarle con this.props
-    expandedTransactionIds: state.expandedTransactionIds
+    expandedTransactionIds: state.expandedTransactionIds,
+    //* mappo i titoli
+    categories: state.categories
   }
 }
 

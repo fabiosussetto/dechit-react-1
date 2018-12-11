@@ -1,12 +1,12 @@
 import transactions from './transactions'
 import filters from './filters'
-import transaction_titles_list from './addform'
+import categories from './categories'
 //* importo il nuovo reducer
 import card from './card'
 
 const initialState = {
     currency: "€",
-    transaction_titles: {
+    categories: {
       list: []
     },
     transactions: {
@@ -26,7 +26,7 @@ const initialState = {
 export default function app(state = initialState, action) {
     return {
         currency: state.currency,
-        transaction_titles: transaction_titles_list(state.transaction_titles, action),
+        categories: categories(state.categories, action),
         transactions: transactions(state.transactions, action),
         filters: filters(state.filters, action),
         expandedTransactionIds: card(state.expandedTransactionIds, action),

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 // import { store } from './state/store' //* importo lo store per il createStore di Redux // https://redux.js.org/api/createstore
 // ROUTER
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { fetchTransactions } from './state/actions'
+import { fetchTransactions, fetchCategoriesList } from './state/actions'
 
 // STYLE
 import 'bootstrap/dist/css/bootstrap.css'
@@ -29,6 +29,7 @@ class App extends Component {
 
   componentDidMount () {
     this.props.dispatch(fetchTransactions())
+    this.props.dispatch(fetchCategoriesList())
   }
 
   //* elimino le funzioni callback che passavo a transactionList e le  metto direttamente dentro
