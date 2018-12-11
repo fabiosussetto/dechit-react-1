@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import {addTransactionFromForm} from './state/actions';
 import { getFilteredTransactions } from './state/selectors';
+import Modal from './Modal'
+import $ from 'jquery'
+import 'bootstrap/dist/js/bootstrap.js'
 
 class AddTransaction extends Component {
     constructor(props) {
@@ -38,11 +41,22 @@ class AddTransaction extends Component {
     }
 
     handleSubmit = (event) => {
+        $('#myModal').modal('show');
+        this.resetForm();
         event.preventDefault();
         const newTransaction = this.state;
         const {transactions} = this.props;
         newTransaction.id = transactions.length+1;
         this.props.dispatch(addTransactionFromForm(newTransaction));
+    }
+
+    resetForm = () => {
+        this.setState({
+            id: 0,
+            title: '',
+            amount: 0,
+            descriptions: ''
+        })
     }
 
     render() {
@@ -60,10 +74,11 @@ class AddTransaction extends Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Description:</label>
-                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.description} onChange={this.handleChangeDescription} required></textarea>
+                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.descriptions} onChange={this.handleChangeDescription} required></textarea>
                     </div>
-                    <button type="submit" className="btn btn-primary">Send</button>
+                    <button type="submit" className="btn btn-primary" data-target="#myModal">Send</button>
                 </form>
+                <Modal />
             </div>
         );
     }

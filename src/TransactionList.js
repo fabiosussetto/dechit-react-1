@@ -4,6 +4,7 @@ import TransactionCard from './TransactionCard'
 import * as actions from './state/actions'
 
 import { getFilteredTransactions } from './state/selectors'
+import $ from 'jquery'
 
 
 class TransactionList extends Component {
@@ -38,6 +39,8 @@ class TransactionList extends Component {
         key={transaction.id} 
       />
     ))
+
+    $('#myModal').modal('hide');
 
     return (
       <div>
