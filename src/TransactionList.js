@@ -13,10 +13,6 @@ class TransactionList extends Component {
     return expandedIds.indexOf(transaction.id) > -1
   }
 
-  componentDidMount () {
-    this.props.dispatch(actions.fetchTransactions())
-  }
-
   onAdd = () => {
     this.props.dispatch(actions.addTransaction())
   }

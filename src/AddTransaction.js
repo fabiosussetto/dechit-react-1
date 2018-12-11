@@ -11,7 +11,7 @@ class AddTransaction extends Component {
             id: 0,
             title: '',
             amount: 0,
-            description: ''
+            descriptions: ''
         }
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
         this.handleChangeAmount = this.handleChangeAmount.bind(this);
@@ -27,13 +27,13 @@ class AddTransaction extends Component {
 
     handleChangeAmount = (event) => {
         this.setState({
-            amount: event.target.value
+            amount: parseFloat(event.target.value)
         });
     }
 
     handleChangeDescription = (event) => {
         this.setState({
-            description: event.target.value
+            descriptions: event.target.value
         });
     }
 
@@ -42,9 +42,7 @@ class AddTransaction extends Component {
         const newTransaction = this.state;
         const {transactions} = this.props;
         newTransaction.id = transactions.length+1;
-        //const newTransactionList = [...transactions, newTransaction];
         this.props.dispatch(addTransactionFromForm(newTransaction));
-        //window.location = '../#/app'
     }
 
     render() {

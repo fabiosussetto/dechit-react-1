@@ -7,8 +7,8 @@ export const store = createStore(
     applyMiddleware(thunk)
 )
 
-store.subscribe(() => showTransaction(store.getState()));
+/*store.subscribe(() => showTransaction(store.getState()));
 
 function showTransaction(state) {
     console.log(state);
-}
+}*/

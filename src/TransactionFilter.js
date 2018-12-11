@@ -42,37 +42,40 @@ class TransactionFilter extends Component {
   render() {
     const {callbacks, expandedIds, transactions} = this.props
     return (
-      <form onSubmit={this.onSubmit}>
-        Amount: 
-        <input 
-            type="number" 
-            value={this.state.amount} 
-            onChange={this.onAmountChange}  
-        />
+      <div className="mt-2 mb-2">
+        <h2>My Bank Account</h2>
+        <form onSubmit={this.onSubmit}>
+          Amount: 
+          <input 
+              type="number" 
+              value={this.state.amount} 
+              onChange={this.onAmountChange}  
+          />
 
-        <div>
-            {shortcuts.map(shortcut => (
-                <span 
-                    key={shortcut.label}
-                    className="badge badge-secondary mr-2" 
-                    onClick={() => this.applyShortcut(shortcut)}>
-                    {shortcut.label}
-                </span>
-            ))}
-        </div>
-        
-        <div className="mt-2">
-          <div className="row">
-            <div className="col-1"><button type="submit" className="btn btn-sm btn-primary">Filter</button></div>
-            <div className="col-1"><button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button></div>
-            <div className="col-10 text-right">
-              <button type="button" className="btn btn-sm btn-dark" onClick={callbacks.allToggleCardExpanded}>
-                {expandedIds.length === transactions.length ? 'Collapse All' : 'Expand All'}
-              </button>
+          <div>
+              {shortcuts.map(shortcut => (
+                  <span 
+                      key={shortcut.label}
+                      className="badge badge-secondary mr-2" 
+                      onClick={() => this.applyShortcut(shortcut)}>
+                      {shortcut.label}
+                  </span>
+              ))}
+          </div>
+          
+          <div className="mt-2">
+            <div className="row">
+              <div className="col-1"><button type="submit" className="btn btn-sm btn-primary">Filter</button></div>
+              <div className="col-1"><button type="button" className="btn btn-sm btn-secondary" onClick={this.resetAmount}>Reset</button></div>
+              <div className="col-10 text-right">
+                <button type="button" className="btn btn-sm btn-dark" onClick={callbacks.allToggleCardExpanded}>
+                  {expandedIds.length === transactions.length ? 'Collapse All' : 'Expand All'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     )
   }
 }

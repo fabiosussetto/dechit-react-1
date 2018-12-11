@@ -20,7 +20,7 @@ export default function transactions(state, action) {
         case 'ADD_TRANSACTION_FROM_FORM':
             return {
                 ...state,
-                list: action.payload.list
+                list: [...state.list, action.payload.list]
             }
         case 'CLEAR_TRANSACTIONS':
             return {

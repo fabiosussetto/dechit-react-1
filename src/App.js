@@ -9,7 +9,14 @@ import TransactionList from './TransactionList'
 import * as actions from './state/actions'
 import {getFilteredTransactions} from './state/selectors'
 
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Menu from './Menu';
+import AddTransaction from './AddTransaction';
+
 class App extends Component {
+  componentDidMount() {
+      this.props.dispatch(actions.fetchTransactions())
+  }
 
   toggleCardExpanded = (transaction) => {
     const {expandedTransactionIds} = this.props
@@ -75,16 +82,16 @@ class App extends Component {
     }
 
     return (
-      <div className="container">
-        <h2>My Bank Account</h2>
-        <div className="mt-2 mb-2">
-          <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />
+      <Router>
+        <div>
+          <Menu />
+          <div className="container">
+            <Route exact path="/" render={() => <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />}></Route>
+            <Route exact path="/" render={() => <TransactionList expandedIds={expandedTransactionIds} callbacks={callbacks} />}></Route>
+            <Route path="/addTransaction" component={AddTransaction} />
+          </div>
         </div>
-        <TransactionList 
-          expandedIds={expandedTransactionIds}
-          callbacks={callbacks}
-        />
-      </div>
+      </Router>
     )
   }  
 }

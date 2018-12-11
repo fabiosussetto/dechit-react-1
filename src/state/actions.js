@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export function setFilterAmount (amount) {
+export function setFilterAmount(amount) {
     return { 
         type: 'SET_FILTER_AMOUNT', 
         payload: {
@@ -34,15 +34,12 @@ export function addTransaction() {
     }
 }
 
-export function addTransactionFromForm(newTransactionsList) {
-    return(dispatch, getState) => {
-        const actualTransactioList = getState().transactions.list;
-        dispatch({
-            type: 'ADD_TRANSACTION_FROM_FORM', 
-            payload: { 
-                list: [...actualTransactioList, newTransactionsList]
-            }
-        })
+export function addTransactionFromForm(newTransaction) {
+    return {
+        type: 'ADD_TRANSACTION_FROM_FORM', 
+        payload: { 
+            list: newTransaction
+        }
     }
 }
 
