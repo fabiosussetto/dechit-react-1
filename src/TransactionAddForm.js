@@ -35,15 +35,15 @@ class TransactionAddForm extends Component {
       case 'amount':
         if( value < 1 ) {
           error = 'is too small'
-        } else if( value > 100 ) {
-          error = 'is too big (max 99)'
+        } else if( value > 1000 ) {
+          error = 'is too big (max 999)'
         }
       break;
       case 'description':
         if( value === '' ) {
           error = 'is empty'
-        } else if( value.length > 30 ) {
-          error = 'is too big (max 30 ch.)'
+        } else if( value.length > 20 ) {
+          error = 'is too big (max 20 ch.)'
         }
       break;
       default:

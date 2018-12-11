@@ -74,12 +74,23 @@ class TransactionList extends Component {
             } ]
 
        //* filtro solo il titolo corrente
-       const curObj = catsObjs.filter(item => item.value === transaction.title)
+       let curObj = catsObjs.filter(item => item.value === transaction.title)
+       //* fallback se non ci sono risultati in filter
+       curObj = (curObj.length > 0) ? curObj : [{
+                                                 name: "Unknown",
+                                                 value: "unknown"
+                                               }]
        //* estraggo il primo (e unico) elemento
        //* ??? TODO trovare modo migliore si shift!
        const curTitle = curObj.shift();
+
+       console.log( curObj );
        //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
-       return transaction = { ...transaction, label: curTitle.name }
+       return transaction = {
+         ...transaction,
+         title: curTitle.value,
+         label: curTitle.name
+       }
 
     } )
 
