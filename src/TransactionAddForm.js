@@ -19,15 +19,15 @@ const initialState = {
     //* ??? è + corretto inizializzare ogni input o creare uno array vuoto
     // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
     category: {
-      changed : false,
+      status : false,
       error: false
     },
     amount: {
-      changed : false,
+      status : false,
       error: false
     },
     description: {
-      changed : false,
+      status : false,
       error: false
     }
   }
@@ -38,19 +38,26 @@ class TransactionAddForm extends Component {
   state = initialState
 
   validateNewTransaction(fieldName, value){
+    //let status = this.state.validation[fieldName].status
+    //let error = this.state.validation[fieldName].error
+    let status = false
     let error = false
 
     switch(fieldName) {
       case 'category':
         if( ! value || value === '' ) {
           error = 'is required'
+        } else {
+          status = true
         }
       break;
       case 'amount':
-        if( value < 1 ) {
-          error = 'is too small'
+        if( value <= 0 ) {
+          error = 'is required'
         } else if( value > 1000 ) {
           error = 'is too big (max 999)'
+        } else {
+          status = true
         }
       break;
       case 'description':
@@ -60,31 +67,37 @@ class TransactionAddForm extends Component {
           error = 'is too short (min 4 ch.)'
         } else if( value.length > 20 ) {
           error = 'is too big (max 20 ch.)'
+        } else {
+          status = true
         }
       break;
       default:
         error = false
+        status = true
       break;
     }
 
-    return error ? [fieldName]+' '+error : false
+    error = error ? [fieldName]+' '+error : false;
+    return { error: error, status: status }
   }
 
   //* ??? c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
-  validateField(name, value, error) {
+  validateField(name, value, result) {
 
     this.setState({ validation: {
                     ...this.state.validation,
                     [name]: { // name -> primo parametro funzione
-                      error: error,
+                      ...[name],
+                      status: result.status,
+                      error: result.error,
                     }
                   }
                 }, this.validateForm); // callback dopo setState
   }
 
   validateForm() {
-    const valid = this.state.validation;
-    const formValidation = ! valid.amount.error && ! valid.description.error
+    const v = this.state.validation;
+    const formValidation = ( v.category.status && v.amount.status && v.description.status )
     this.setState({validation: { ...this.state.validation, form: formValidation } });
   }
 
@@ -93,7 +106,6 @@ class TransactionAddForm extends Component {
     return result
   }
 
-  //* TODO fare componente???
   setValindationFeedback(name) {
     return(
       <div className="invalid-feedback">{name.error}</div>
@@ -127,8 +139,6 @@ class TransactionAddForm extends Component {
   }
 
   render() {
-    //const initialState = this.state;
-
     const { currency, categories } = this.props
     const { validation } = this.state;
     return (
