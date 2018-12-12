@@ -9,37 +9,37 @@ const CategoriesList = (props) => {
   )
 }
 
-const initialState = {
-  category: '',
-  amount: '',
-  description: '',
-  validation: {
-    msg: '',
-    form: false,
-    //* ??? è + corretto inizializzare ogni input o creare uno array vuoto
-    // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
-    category: {
-      status : false,
-      error: false
-    },
-    amount: {
-      status : false,
-      error: false
-    },
-    description: {
-      status : false,
-      error: false
-    }
-  }
-};
+//* ??? [Violation] Added non-passive event listener to a scroll-blocking <some>
+// event. Consider marking event handler as 'passive' to make the page more responsive.
+// See <URL>
 
 class TransactionAddForm extends Component {
 
-  state = initialState
+  state = {
+    category: '',
+    amount: '',
+    description: '',
+    validation: {
+      msg: '',
+      form: false,
+      //* ??? è + corretto inizializzare ogni input o creare uno array vuoto
+      // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
+      category: {
+        status : false,
+        error: false
+      },
+      amount: {
+        status : false,
+        error: false
+      },
+      description: {
+        status : false,
+        error: false
+      }
+    }
+  }
 
   validateNewTransaction(fieldName, value){
-    //let status = this.state.validation[fieldName].status
-    //let error = this.state.validation[fieldName].error
     let status = false
     let error = false
 
@@ -130,12 +130,21 @@ class TransactionAddForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    //* cambia stato globale aggiungendo una transazione
     this.props.dispatch(addNewTransaction(this.state));
-    console.log('this.state',this.state);
-    const finalState = initialState
-    finalState.validation.msg = 'Done! Check the List :)'
-    console.log(finalState);
-    this.setState(finalState)
+    // resetta lo stato e cambia il messaggio
+    this.setState({
+          ...this.state,
+            //* ??? devo resettare gli input uno ad uno o c'è unmodo migliore?
+            category: '',
+            amount: '',
+            description: '',
+            //* aggiungo messaggio di successo
+            validation: {
+              ...this.state.validation,
+              msg: 'Done! Check the List :)'
+        }
+      });
   }
 
   render() {

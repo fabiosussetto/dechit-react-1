@@ -82,7 +82,6 @@ class TransactionList extends Component {
        //* ??? TODO trovare modo migliore si shift!
        const current = curObj.shift();
 
-       console.log( curObj );
        //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
        return transaction = {
          ...transaction,
