@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { setFilterAmount } from './state/actions'
+import { setFilterAmount, setTransactions } from './state/actions'
+import { getFilteredTransactions  } from './state/selectors'
 
 const shortcuts = [
     { label: 'Cheap', maxAmount: 10 },
@@ -25,6 +26,38 @@ class TransactionFilter extends Component {
     }, () => {
       this.props.dispatch(setFilterAmount(this.state.amount))
      })
+  }
+
+  applySort = (order) => {
+    const { transactions } = this.props
+    let compareFunction
+    // l'array temporaneo contiene oggetti con posizione e valore di ordinamento
+    var mapped = transactions.map(function(el) {
+      return { index: el.amount, value: el };
+    })
+    // sorting tramite le compareFunctions
+    switch(order) {
+      case 'DESC':
+        compareFunction = function(a,b) {
+          if (a.index > b.index) return -1;
+          if (a.index < b.index) return 1;
+          return 0;
+        }
+      break;
+      default:
+        compareFunction = function(a,b) {
+          if (a.index > b.index) return 1;
+          if (a.index < b.index) return -1;
+          return 0;
+        }
+      break
+    }
+    // ordinamento dell'array mappato contenente i valori ridotti
+    mapped.sort(compareFunction);
+    // rimappatura dell'array nell'ordine sortato
+    var result = mapped.map((el)=>el.value);
+    // dispatch delle transazioni verso lo state globale
+    this.props.dispatch(setTransactions(result))
   }
 
   onAmountChange = (event) => {
@@ -65,10 +98,28 @@ class TransactionFilter extends Component {
                     {shortcut.label}
                 </span>
             ))}
+            <span
+              className="badge badge-warning mr-2"
+              onClick={()=>this.applySort('ASC')}>
+              Sort ASC
+            </span>
+            <span
+              className="badge badge-warning mr-2"
+              onClick={()=>this.applySort('DESC')}>
+              Sort DESC
+            </span>
         </div>
       </div>
     )
   }
 }
 
-export default connect()(TransactionFilter)
+//export default connect()(TransactionFilter)
+
+const mapStateToProps = (state) => {
+  return {
+    transactions: getFilteredTransactions(state),
+  }
+}
+
+export default connect(mapStateToProps)(TransactionFilter);
