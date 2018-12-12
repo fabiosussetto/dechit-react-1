@@ -33,7 +33,7 @@ class TransactionAddForm extends Component {
         error: false
       },
       description: {
-        status : false,
+        status : true,
         error: false
       }
     }
@@ -61,11 +61,11 @@ class TransactionAddForm extends Component {
         }
       break;
       case 'description':
-        if( value === '' ) {
+        /*if( value === '' ) {
           error = 'is empty'
         } else if( value.length < 3 ) {
           error = 'is too short (min 4 ch.)'
-        } else if( value.length > 20 ) {
+        } else */if( value.length > 15 ) {
           error = 'is too big (max 20 ch.)'
         } else {
           status = true
