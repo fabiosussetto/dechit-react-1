@@ -16,13 +16,14 @@ class AddTransaction extends Component {
             amount: 0,
             description: ''
         }
-        this.handleChangeCategory = this.handleChangeCategory.bind(this);
+        /* this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleChangeAmount = this.handleChangeAmount.bind(this);
-        this.handleChangeDescription = this.handleChangeDescription.bind(this);
+        this.handleChangeDescription = this.handleChangeDescription.bind(this); */
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    handleChangeCategory = (event) => {
+    /* handleChangeCategory = (event) => {
         this.setState({
             category: event.target.value
         });
@@ -37,6 +38,12 @@ class AddTransaction extends Component {
     handleChangeDescription = (event) => {
         this.setState({
             description: event.target.value
+        });
+    } */
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
         });
     }
 
@@ -66,15 +73,15 @@ class AddTransaction extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="category">Category:</label>
-                        <input type="text" className="form-control" id="category" placeholder="Enter category" name="category" value={this.state.category} onChange={this.handleChangeCategory} required></input>
+                        <input type="text" className="form-control" id="category" placeholder="Enter category" name="category" value={this.state.category} onChange={this.handleChange} required></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="amount">Amount:</label>
-                        <input type="number" className="form-control" id="amount" placeholder="Enter amount" name="amount" value={this.state.amount} onChange={this.handleChangeAmount} required></input>
+                        <input type="number" className="form-control" id="amount" placeholder="Enter amount" name="amount" value={this.state.amount} onChange={this.handleChange} required></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Description:</label>
-                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.description} onChange={this.handleChangeDescription} required></textarea>
+                        <textarea rows="5" className="form-control" id="description" placeholder="Enter description" name="description" value={this.state.description} onChange={this.handleChange} required></textarea>
                     </div>
                     <button type="submit" className="btn btn-primary" data-target="#myModal">Send</button>
                 </form>
