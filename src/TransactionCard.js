@@ -1,24 +1,7 @@
 import React from 'react'
+import TransactionAddForm from './TransactionAddForm'
 
 // Es. di "functional component"
-
-
-//* ??? qual è il modo migliore di gestire queste situazioni?
-// va bene usare una funzione in un componente funzionale?
-function descriptionButton(transaction, expanded, onToggleExpand) {
-  if(transaction.description) {
-    return (
-      <button className="btn btn-sm btn-link pl-0 mr-2"
-              onClick={onToggleExpand}>
-        {expanded ? 'Hide' : 'Show'} description
-      </button>
-    )
-  } else {
-    return (
-      <small>(Nothing to show here)</small>
-    )
-  }
-}
 
 const TransactionCard = (props) => {
     const { transaction, onIncrementAmount, expanded, onToggleExpand, onRemoveTransacion, currency } = props
@@ -48,14 +31,26 @@ const TransactionCard = (props) => {
             </div>
 
             <div className="card-text">
-              {descriptionButton(transaction, expanded, onToggleExpand)}
+              <TransactionAddForm
+                elemToEdit={transaction}
+              />
+              {transaction.description &&
+                <button className="btn btn-sm btn-link pl-0 mr-2"
+                        onClick={onToggleExpand}>
+                  {expanded ? 'Hide' : 'Show'} details
+                </button>
+              }
               {expanded && (
-                <p>
-                  <small>
-                   {transaction.description}
-                  </small>
-                </p>
+                <div>
+                  <p>
+                    <small>
+                     {transaction.description}
+                    </small>
+                  </p>
+                </div>
               )}
+
+
             </div>
         </div>
     )

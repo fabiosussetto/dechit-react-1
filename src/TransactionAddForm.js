@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { addNewTransaction } from './state/actions'
+import { addNewTransaction, editTransaction } from './state/actions'
 
 const CategoriesList = (props) => {
   const { elem } = props
@@ -8,10 +8,6 @@ const CategoriesList = (props) => {
     <option value={elem.value}>{elem.name}</option>
   )
 }
-
-//* ??? [Violation] Added non-passive event listener to a scroll-blocking <some>
-// event. Consider marking event handler as 'passive' to make the page more responsive.
-// See <URL>
 
 class TransactionAddForm extends Component {
 
@@ -39,6 +35,19 @@ class TransactionAddForm extends Component {
     }
   }
 
+  //* ??? Ha senso / c'è un modo per validare la form nella sua interezza all'azione di Mount?
+  // es: se i dati che scendono da API non sono valide, andrebbe mostrato
+  componentDidMount () {
+    const { elemToEdit } = this.props
+    if( elemToEdit !== undefined ) {
+      this.setState({
+        category: elemToEdit.category,
+        amount: elemToEdit.amount,
+        description: elemToEdit.description
+      })
+    }
+  }
+
   validateNewTransaction(fieldName, value){
     let status = false
     let error = false
@@ -61,12 +70,8 @@ class TransactionAddForm extends Component {
         }
       break;
       case 'description':
-        /*if( value === '' ) {
-          error = 'is empty'
-        } else if( value.length < 3 ) {
-          error = 'is too short (min 4 ch.)'
-        } else */if( value.length > 15 ) {
-          error = 'is too big (max 20 ch.)'
+        if( value.length > 150 ) {
+          error = 'is too big (max 150 ch.)'
         } else {
           status = true
         }
@@ -76,14 +81,13 @@ class TransactionAddForm extends Component {
         status = true
       break;
     }
-
     error = error ? [fieldName]+' '+error : false;
     return { error: error, status: status }
   }
 
   //* ??? c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
-  validateField(name, value, result) {
-
+  validateField(name, value) {
+    const result = this.validateNewTransaction(name, value);
     this.setState({ validation: {
                     ...this.state.validation,
                     [name]: { // name -> primo parametro funzione
@@ -96,60 +100,64 @@ class TransactionAddForm extends Component {
   }
 
   validateForm() {
-    const v = this.state.validation;
-    const formValidation = ( v.category.status && v.amount.status && v.description.status )
-    this.setState({validation: { ...this.state.validation, form: formValidation } });
-  }
-
-  setValidationClass(name) {
-    var result = name.error ? 'is-invalid' : ''
-    return result
-  }
-
-  setValindationFeedback(name) {
-    return(
-      <div className="invalid-feedback">{name.error}</div>
-    )
+    const { validation, amount } = this.state;
+    const formValidation = ( validation.category.status && validation.amount.status && validation.description.status )
+    this.setState({validation: { ...validation, form: formValidation } });
   }
 
   handleInputChange = (event) => {
     const target = event.target;
     const name = target.name;
-    let value = target.value ? target.value : ''
-
-    if( target.value && target.type === 'number' ) {
-      value = parseFloat(target.value);
-    }
-
-    const result = this.validateNewTransaction(name, value);
-
+    let type = target.type
+    //* registro il valore in una variabile e la trasformo in numerico se necessario
+    let value = target.value ? ( type === 'number' ? parseFloat(target.value) : target.value ) : ''
     this.setState({
       [name]: value
-    }, () => { this.validateField(name, value, result) }) // callback x validazione
+    }, () => {
+      // callback x validazione
+      this.validateField(name, value)
+    })
   }
 
   onSubmit = (event) => {
+    const { elemToEdit } = this.props
+    let msg
+    let category = ''
+    let amount = ''
+    let description = ''
+
     event.preventDefault();
-    //* cambia stato globale aggiungendo una transazione
-    this.props.dispatch(addNewTransaction(this.state));
+    //* in base alla presenza o no della prop "elemToEdit",
+    // decide se editare quella esistente oppure
+    // cambiare stato globale aggiungendo una transazione
+    if( elemToEdit !== undefined ) {
+      category = this.state.category
+      amount = this.state.amount
+      description = this.state.description
+      this.props.dispatch(editTransaction(elemToEdit.id,this.state))
+    } else {
+      this.props.dispatch(addNewTransaction(this.state));
+      msg = 'Transaction added! Check the List :)'
+    }
     // resetta lo stato e cambia il messaggio
     this.setState({
           ...this.state,
-            //* ??? devo resettare gli input uno ad uno o c'è unmodo migliore?
-            category: '',
-            amount: '',
-            description: '',
+            //* ??? devo resettare gli input uno ad uno o c'è un modo migliore?
+            category: category,
+            amount: amount,
+            description: description,
             //* aggiungo messaggio di successo
             validation: {
               ...this.state.validation,
-              msg: 'Done! Check the List :)'
+              msg: msg
         }
       });
   }
-
+  
   render() {
     const { currency, categories } = this.props
     const { validation } = this.state;
+    //console.log('validation.amount.error',validation.amount.status);
     return (
       <div>
       {validation.msg && <div className="alert alert-success" role="alert">{validation.msg}</div>}
@@ -161,7 +169,7 @@ class TransactionAddForm extends Component {
                     <select name="category"
                       value={this.state.category}
                       onChange={this.handleInputChange}
-                      className={`form-control ${this.setValidationClass(validation.category)}`}
+                      className={`form-control ${validation.category.error ? 'is-invalid' : ''}`}
                     >
                       <option value='' defaultValue>Choose cat.</option>
                       {categories.list.map((cat) => (
@@ -171,7 +179,7 @@ class TransactionAddForm extends Component {
                           />
                         ))}
                     </select>
-                  {this.setValindationFeedback(validation.category)}
+                  <div className="invalid-feedback">{validation.category.error}</div>
                   </div>
                   <div className="col-6 col-sm-3 col-md pr-sm-0 mb-2">
                     <div className="input-group">
@@ -187,9 +195,9 @@ class TransactionAddForm extends Component {
                           type="number"
                           value={this.state.amount}
                           onChange={this.handleInputChange}
-                          className={`form-control ${this.setValidationClass(validation.amount)}`}
+                          className={`form-control ${validation.amount.error ? 'is-invalid' : ''}`}
                         />
-                        {this.setValindationFeedback(validation.amount)}
+                        <div className="invalid-feedback">{validation.amount.error}</div>
                       </div>
                     </div>
                   </div>
@@ -200,15 +208,15 @@ class TransactionAddForm extends Component {
                       type="text"
                       value={this.state.description}
                       onChange={this.handleInputChange}
-                      className={`form-control ${this.setValidationClass(validation.description)}`}
+                      className={`form-control ${validation.description.error ? 'is-invalid' : ''}`}
                     />
-                    {this.setValindationFeedback(validation.description)}
+                  <div className="invalid-feedback">{validation.description.error}</div>
                 </div>
                   <div className="col-3 col-sm-auto pr-sm-0 mb-2">
                       <button type="submit"
                               className={`btn btn-block btn-${validation.form ? 'success': 'secondary' }`}
                               disabled={!validation.form && 'disabled'}>
-                        Add
+                        Submit
                       </button>
                   </div>
                 </div>

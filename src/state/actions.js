@@ -47,11 +47,39 @@ export function incrementAmount(transactionId) {
     newTransactions[txIndex] = incrementedTx
 
     dispatch({
-        type: 'INCREMENT_AMOUNT',
+        type: 'EDIT_TRANSACTION',
         transactions: newTransactions
     });
   };
 }
+
+export function editTransaction(transactionId,submittedForm) {
+  return (dispatch, getState) => {
+    const state = getState()
+    // recupero le transazioni
+    const transactions = state.transactions.list
+    // cerco quella con l'id che mi interessa
+    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
+    // la salvo in una variabile
+    const txToUpdate = transactions[txIndex]
+
+    const incrementedTx = {
+      ...txToUpdate,
+      category: submittedForm.category,
+      amount: submittedForm.amount,
+      description: submittedForm.description
+    }
+
+    const newTransactions = [...transactions]
+    newTransactions[txIndex] = incrementedTx
+
+    dispatch({
+        type: 'EDIT_TRANSACTION',
+        transactions: newTransactions
+    });
+  };
+}
+
 
 //* ??? chiedere se è più corretto usare un'azione "generica" tipo SET_TRANSACTIONS
 //  oppure se è meglio crearne una ad hoc che però aggiorni i dati nello stemmo modo.

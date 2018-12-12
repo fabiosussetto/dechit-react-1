@@ -30,3 +30,8 @@
     transform: rotate(360deg);
   }
 }
+
+/* BOOTSTRAP BUGFIX. Verificare. */
+.form-row {
+  max-width: calc(100% + 5px);
+}

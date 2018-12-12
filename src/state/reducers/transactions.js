@@ -24,7 +24,7 @@ export default function transactions(state, action) {
                 ...state,
                 list: [...state.list, newTransaction]
             }
-        case 'INCREMENT_AMOUNT':
+        case 'EDIT_TRANSACTION':
           const incrementedTransaction = action.transactions
           return {
             ...state,
