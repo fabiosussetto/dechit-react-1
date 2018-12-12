@@ -31,6 +31,15 @@ export function fetchTransactions() {
   };
 }
 
+export function setTransactions(transactions) {
+    return {
+      type: 'SET_TRANSACTIONS',
+      payload: {
+          list: transactions
+      }
+    }
+}
+
 //* esporto la mia funzione nelle actions, poi ne faccio il dispatch per passarla
 // già "pulita" al reducer (meglio lasciare il reducwer più pulito possibile)
 export function incrementAmount(transactionId) {
@@ -42,6 +51,27 @@ export function incrementAmount(transactionId) {
     const txToUpdate = transactions[txIndex]
 
     const incrementedTx = { ...txToUpdate, amount: txToUpdate.amount + 10 }
+
+    const newTransactions = [...transactions]
+    newTransactions[txIndex] = incrementedTx
+
+    dispatch({
+        type: 'EDIT_TRANSACTION',
+        transactions: newTransactions
+    });
+  };
+}
+
+export function decrementAmount(transactionId) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const transactions = state.transactions.list
+
+    const txIndex = transactions.findIndex((tx) => tx.id === transactionId)
+    const txToUpdate = transactions[txIndex]
+
+    const newAmount = txToUpdate.amount > 10 ? txToUpdate.amount - 10 : txToUpdate.amount
+    const incrementedTx = { ...txToUpdate, amount: newAmount }
 
     const newTransactions = [...transactions]
     newTransactions[txIndex] = incrementedTx

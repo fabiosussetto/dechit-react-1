@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
-import { incrementAmount, removeTransacion, editTransaction } from './state/actions'
+import { incrementAmount, decrementAmount, removeTransacion, editTransaction } from './state/actions'
 import { getFilteredTransactions } from './state/selectors'
 
 
@@ -34,6 +34,10 @@ class TransactionList extends Component {
 
   incrementAmount = (transactionId) => {
     this.props.dispatch(incrementAmount(transactionId))
+  }
+
+  decrementAmount = (transactionId) => {
+    this.props.dispatch(decrementAmount(transactionId))
   }
 
   editTransaction = (transactionId) => {
@@ -104,6 +108,7 @@ class TransactionList extends Component {
           transaction={transaction}
           currency={currency}
           onEditTransaction={this.editTransaction.bind(this, transaction.id)}
+          onDecrementAmount={this.decrementAmount.bind(this, transaction.id)}
           onIncrementAmount={this.incrementAmount.bind(this, transaction.id)}
           onRemoveTransacion={this.removeTransacion.bind(this, transaction.id)}
           key={transaction.id}

@@ -100,7 +100,7 @@ class TransactionAddForm extends Component {
   }
 
   validateForm() {
-    const { validation, amount } = this.state;
+    const { validation } = this.state;
     const formValidation = ( validation.category.status && validation.amount.status && validation.description.status )
     this.setState({validation: { ...validation, form: formValidation } });
   }
@@ -153,7 +153,7 @@ class TransactionAddForm extends Component {
         }
       });
   }
-  
+
   render() {
     const { currency, categories } = this.props
     const { validation } = this.state;
