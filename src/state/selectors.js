@@ -2,8 +2,6 @@
 export function getVisibleTransactions(state) {
     const transactions = state.transactions.list
     let newTransactions = transactions
-    const filterAmount = state.filters.amount
-    const sorter = state.filters.sortBy
     let filteredState = state
     newTransactions = getSortedTransactions(filteredState);
     filteredState.transactions.list = newTransactions
@@ -22,14 +20,18 @@ export function getFilteredTransactions(state) {
 
 export function getSortedTransactions(state) {
     const transactions = state.transactions.list
-    const sorter = state.filters.sortBy
+    const sortDir = state.filters.sortDir
+    const sortBy = state.filters.sortBy
     let compareFunction
+    if( ! sortBy ) {
+        return transactions
+    }
     // l'array temporaneo contiene oggetti con posizione e valore di ordinamento
     var mapped = transactions.map((el)=> {
-      return { index: el.amount, value: el };
+      return { index: el[sortBy], value: el };
     })
     // sorting tramite le compareFunctions
-    switch(sorter) {
+    switch(sortDir) {
       case 'DESC':
         compareFunction = function(a,b) {
           if (a.index > b.index) return -1;
@@ -43,12 +45,16 @@ export function getSortedTransactions(state) {
           if (a.index < b.index) return -1;
           return 0;
         }
-      break
+      break;
     }
     // ordinamento dell'array mappato contenente i valori ridotti
-    mapped.sort(compareFunction);
+    if(compareFunction) {
+      mapped.sort(compareFunction);
+    } else {
+      mapped.sort();
+    }
     // rimappatura dell'array nell'ordine sortato
     var result = mapped.map((el)=>el.value);
     // ritorna il nuovo array
-    return result.sort(compareFunction)
+    return result
 }

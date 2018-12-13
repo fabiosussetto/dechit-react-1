@@ -6,8 +6,13 @@ export function setFilterAmount (amount) {
     return { type: 'SET_FILTER_AMOUNT', amount: amount }
 }
 
-export function setSortOrder (sorter) {
-    return { type: 'SET_SORT_ORDER', sorter: sorter }
+export function setSortOrder (sortBy,sortDir) {
+    return { type: 'SET_SORT_ORDER',
+             payload: {
+               sortBy: sortBy,
+               sortDir: sortDir
+             }
+           }
 }
 
 export function setLoading(status) {

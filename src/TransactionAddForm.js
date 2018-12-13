@@ -157,7 +157,6 @@ class TransactionAddForm extends Component {
   render() {
     const { currency, categories } = this.props
     const { validation } = this.state;
-    //console.log('validation.amount.error',validation.amount.status);
     return (
       <div>
       {validation.msg && <div className="alert alert-success" role="alert">{validation.msg}</div>}

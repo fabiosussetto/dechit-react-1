@@ -13,7 +13,8 @@ class TransactionFilter extends Component {
 
   state = {
     amount: 0,
-    sortBy: 'ASC'
+    sortBy: 'id',
+    sortDir: 'ASC'
   }
 
   onSubmit = (event) => {
@@ -30,13 +31,13 @@ class TransactionFilter extends Component {
      })
   }
 
-  applySort = (sorter) => {
-
+  applySort = (sortBy,sortDir) => {
     this.setState({
         ...this.state,
-        sortBy: sorter
+        sortBy: sortBy,
+        sortDir: sortDir
     }, () => {
-      this.props.dispatch(setSortOrder(this.state.sortBy))
+      this.props.dispatch(setSortOrder(sortBy,sortDir))
      })
   }
 
@@ -55,6 +56,7 @@ class TransactionFilter extends Component {
   }
 
   render() {
+    const { filters} = this.props
     return (
       <div className="d-flex flex-column mb-4">
         <form onSubmit={this.onSubmit} className="form-inline">
@@ -73,7 +75,7 @@ class TransactionFilter extends Component {
             {shortcuts.map(shortcut => (
                 <span
                     key={shortcut.label}
-                    className="badge badge-secondary mr-2"
+                    className="badge badge-primary mr-2"
                     onClick={() => this.applyShortcut(shortcut)}>
                     {shortcut.label}
                 </span>
@@ -81,16 +83,26 @@ class TransactionFilter extends Component {
             {/* //* ??? QUESTION: se uso i filtri shortcut e gli ordinamenti
               in maniera combinata, non riesco a tornare più alla situazione iniziale.
               è possibiole che io cambi lo stato scorretto quando faccio il SORT? */}
-            <span
-              className="badge badge-warning mr-2"
-              onClick={()=>this.applySort('ASC')}>
-              Sort ASC
-            </span>
-            <span
-              className="badge badge-warning mr-2"
-              onClick={()=>this.applySort('DESC')}>
-              Sort DESC
-            </span>
+              <span
+                className={`mr-2 badge badge-${filters.sortBy==='id' ? 'success' : 'secondary'}`}
+                onClick={()=>this.applySort('id',filters.sortDir)}>
+                SortBy ID
+              </span>
+              <span
+                className={`mr-2 badge badge-${filters.sortBy==='amount' ? 'success' : 'secondary'}`}
+                onClick={()=>this.applySort('amount',filters.sortDir)}>
+                SortBy Amount
+              </span>
+              <span
+                className={`mr-2 badge badge-${filters.sortDir==='ASC' ? 'success' : 'secondary'}`}
+                onClick={()=>this.applySort(filters.sortBy,'ASC')}>
+                ASC
+              </span>
+              <span
+                className={`mr-2 badge badge-${filters.sortDir==='DESC' ? 'success' : 'secondary'}`}
+                onClick={()=>this.applySort(filters.sortBy,'DESC')}>
+                DESC
+              </span>
         </div>
       </div>
     )

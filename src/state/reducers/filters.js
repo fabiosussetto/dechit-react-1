@@ -8,7 +8,8 @@ export default function filters(state, action) {
       case 'SET_SORT_ORDER':
           return {
               ...state,
-              sortBy: action.sorter
+              sortBy: action.payload.sortBy,
+              sortDir: action.payload.sortDir
           }
         default:
             return state;

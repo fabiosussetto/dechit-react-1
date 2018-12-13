@@ -15,7 +15,8 @@ const initialState = {
     },
     filters: {
         amount: 0,
-        sortBy: 'ASC'
+        sortBy: 'id',
+        sortDir: 'ASC'
     },
     //* creo il mio stato
     //* ??? QUESTION: TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
