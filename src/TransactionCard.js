@@ -10,7 +10,6 @@ const TransactionCard = (props) => {
             <div className="row">
                 <div className="col">
                     <h5 className="card-title">
-                      {transaction.id},
                       {transaction.label}
                       <small className="ml-2">
                         [{transaction.category}]
