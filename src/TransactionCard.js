@@ -29,24 +29,24 @@ const TransactionCard = (props) => {
             </div>
 
             <div className="card-text">
-              {/* //* ??? non viene settato lo stato correttamente:
-                cliccando su incrementAmount non viene agigornato lo stato della form. */}
-              <TransactionAddForm
-                elemToEdit={transaction}
-              />
+
+              <p><small> {transaction.description} </small></p>
+
+            {/* //* ??? QUESTION: se volessi sovrascrivere/usare/modificare qualcosa che mi viene passato
+                dai vendro (es: scss boostrap), qual è l'approcio migliore? */}
               {transaction.description &&
-                <button className="btn btn-sm btn-link pl-0 mr-2"
+                <button className="btn btn-primary btn-sm mb-2"
                         onClick={onToggleExpand}>
-                  {expanded ? 'Hide' : 'Show'} details
+                  {expanded ? 'Hide' : 'Show'} edit form
                 </button>
               }
               {expanded && (
                 <div>
-                  <p>
-                    <small>
-                     {transaction.description}
-                    </small>
-                  </p>
+                  {/* //* ??? QUESTION: "transaction" nella form non viene settato correttamente:
+                    cliccando su incrementAmount non viene agigornato lo stato nella form. */}
+                  <TransactionAddForm
+                    elemToEdit={transaction}
+                  />
                 </div>
               )}
 

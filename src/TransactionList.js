@@ -4,7 +4,7 @@ import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 
 import { incrementAmount, decrementAmount, removeTransacion, editTransaction } from './state/actions'
-import { getFilteredTransactions } from './state/selectors'
+import { getVisibleTransactions } from './state/selectors'
 
 
 class TransactionList extends Component {
@@ -87,7 +87,7 @@ class TransactionList extends Component {
                                                  value: "unknown"
                                                }]
        //* estraggo il primo (e unico) elemento
-       //* ??? TODO trovare modo migliore si shift!
+       //* ??? QUESTION: c'è un modo migliore di fare rispetto a shift?
        const current = curObj.shift();
 
        //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
@@ -138,7 +138,7 @@ class TransactionList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    transactions: getFilteredTransactions(state),
+    transactions: getVisibleTransactions(state),
     currency: state.currency,
     loading: state.transactions.loading,
     //* mappo nelle props anche le transazioni espanse per usarle con this.props

@@ -14,10 +14,11 @@ const initialState = {
         list: []
     },
     filters: {
-        amount: 0
+        amount: 0,
+        sortBy: 'ASC'
     },
     //* creo il mio stato
-    //* ??? TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
+    //* ??? QUESTION: TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
     expandedTransactionIds: {
       ids: []
     },

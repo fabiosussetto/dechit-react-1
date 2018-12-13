@@ -18,7 +18,7 @@ class TransactionAddForm extends Component {
     validation: {
       msg: '',
       form: false,
-      //* ??? è + corretto inizializzare ogni input o creare uno array vuoto
+      //* ??? QUESTION: è + corretto inizializzare ogni input o creare uno array vuoto
       // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
       category: {
         status : false,
@@ -35,7 +35,7 @@ class TransactionAddForm extends Component {
     }
   }
 
-  //* ??? Ha senso / c'è un modo per validare la form nella sua interezza all'azione di Mount?
+  //* ??? QUESTION: Ha senso / c'è un modo per validare la form nella sua interezza all'azione di Mount?
   // es: se i dati che scendono da API non sono valide, andrebbe mostrato
   componentDidMount () {
     const { elemToEdit } = this.props
@@ -85,7 +85,7 @@ class TransactionAddForm extends Component {
     return { error: error, status: status }
   }
 
-  //* ??? c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
+  //* ??? QUESTION: c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
   validateField(name, value) {
     const result = this.validateNewTransaction(name, value);
     this.setState({ validation: {
@@ -142,7 +142,7 @@ class TransactionAddForm extends Component {
     // resetta lo stato e cambia il messaggio
     this.setState({
           ...this.state,
-            //* ??? devo resettare gli input uno ad uno o c'è un modo migliore?
+            //* ??? QUESTION: devo resettare gli input uno ad uno o c'è un modo migliore?
             category: category,
             amount: amount,
             description: description,

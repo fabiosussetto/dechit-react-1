@@ -6,6 +6,10 @@ export function setFilterAmount (amount) {
     return { type: 'SET_FILTER_AMOUNT', amount: amount }
 }
 
+export function setSortOrder (sorter) {
+    return { type: 'SET_SORT_ORDER', sorter: sorter }
+}
+
 export function setLoading(status) {
     return { type: 'SET_LOADING', status: status }
 }
@@ -111,7 +115,7 @@ export function editTransaction(transactionId,submittedForm) {
 }
 
 
-//* ??? chiedere se è più corretto usare un'azione "generica" tipo SET_TRANSACTIONS
+//* ??? QUESTION: chiedere se è più corretto usare un'azione "generica" tipo SET_TRANSACTIONS
 //  oppure se è meglio crearne una ad hoc che però aggiorni i dati nello stemmo modo.
 export function removeTransacion(transactionId) {
   return (dispatch, getState) => {

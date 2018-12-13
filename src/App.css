@@ -35,3 +35,15 @@
 .form-row {
   max-width: calc(100% + 5px);
 }
+
+/*
+//* ??? QUESTION: chiedere come posso andare a recuperare gli stili nei vendors (es. bootstrap) per utilizzarli
+nel mio scss custom */
+/*
+//* ??? QUESTION: chiedere anche le best practices rispetto alla compilazione e l'uso di SCSS in ambiente locale
+(quindi prima della builsd per andare in prod). Usare Webpack? Grunt/Gulp? A ocsa mi serve node-sass???
+.btn-xs {
+  // line-height: ensure proper height of button next to extra small input
+  @include button-size($padding-y, $padding-x, $font-size, $line-height, $border-radius);
+}
+*/
