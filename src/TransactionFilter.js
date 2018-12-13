@@ -57,9 +57,6 @@ class TransactionFilter extends Component {
   render() {
     return (
       <div className="d-flex flex-column mb-4">
-        <p>
-          Sorted by: {this.state.sortBy} ( store: {this.props.filters.sortBy} )
-        </p>
         <form onSubmit={this.onSubmit} className="form-inline">
           <input
               type="number"
