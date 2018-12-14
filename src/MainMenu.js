@@ -11,6 +11,7 @@ function MenuListElem (props) {
 }
 
 class MainMenu extends Component {
+  // !!! NOTE: spostare cone const. e non nello stato perchè non cambiano
   state = {
     elems: [
      //{link: '/', text: 'Home'},

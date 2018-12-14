@@ -17,7 +17,7 @@ class TransactionAddForm extends Component {
     description: '',
     validation: {
       msg: '',
-      form: false,
+      form: false, // NOTE: posso "saltare" questo stato confrontando solo i vari stati dei campi
       //* ??? QUESTION: è + corretto inizializzare ogni input o creare uno array vuoto
       // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
       category: {
@@ -37,6 +37,25 @@ class TransactionAddForm extends Component {
 
   //* ??? QUESTION: Ha senso / c'è un modo per validare la form nella sua interezza all'azione di Mount?
   // es: se i dati che scendono da API non sono valide, andrebbe mostrato
+
+  // !!! NOTE: Vedere getDerivedStateFromProps()
+  // !!! NOTE: vedere optimisticUpdate
+
+// NOTE: vedere "static"
+
+  /*static getDerivedStateFromProps () {
+    const { elemToEdit } = this.props
+    if( elemToEdit !== undefined ) {
+      this.setState({
+        category: elemToEdit.category,
+        amount: elemToEdit.amount,
+        description: elemToEdit.description
+      })
+    }
+  }
+  //* NOTE: fare un if prendere valore nuovo e se è diverso da quello dello stato mando un "alert"
+  */
+
   componentDidMount () {
     const { elemToEdit } = this.props
     if( elemToEdit !== undefined ) {
@@ -46,6 +65,7 @@ class TransactionAddForm extends Component {
         description: elemToEdit.description
       })
     }
+    //* mettere anche la vali
   }
 
   validateNewTransaction(fieldName, value){
@@ -158,7 +178,7 @@ class TransactionAddForm extends Component {
     const { currency, categories } = this.props
     const { validation } = this.state;
     return (
-      <div>
+      <React.Fragment>
       {validation.msg && <div className="alert alert-success" role="alert">{validation.msg}</div>}
         <div className="row">
           <div className="col-md-12">
@@ -221,8 +241,8 @@ class TransactionAddForm extends Component {
                 </div>
               </form>
           </div>
-      </div>
-      </div>
+        </div>
+      </React.Fragment>
     )
   }
 }

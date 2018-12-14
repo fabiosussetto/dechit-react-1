@@ -38,14 +38,15 @@ const TransactionCard = (props) => {
                       onClick={onToggleExpand}>
                 {expanded ? 'Hide' : 'Show'} edit form
               </button>
+              {/* //* !!! NOTE: si può usare il React.Fragment se non si vuole il DIV che wrappa tutto */}
               {expanded && (
-                <div>
+                <React.Fragment>
                   {/* //* ??? QUESTION: "transaction" nella form non viene settato correttamente:
                     cliccando su incrementAmount non viene agigornato lo stato nella form. */}
                   <TransactionAddForm
                     elemToEdit={transaction}
                   />
-                </div>
+                </React.Fragment>
               )}
 
 

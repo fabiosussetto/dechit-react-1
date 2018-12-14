@@ -8,7 +8,7 @@ import { fetchTransactions, fetchCategoriesList } from './state/actions'
 
 // STYLE
 import 'bootstrap/dist/css/bootstrap.css'
-import './App.css';
+import './App.scss';
 // COMPONENTS
 import Home from './Home'
 import Header from './Header'

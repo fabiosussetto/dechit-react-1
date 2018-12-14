@@ -80,9 +80,6 @@ class TransactionFilter extends Component {
                     {shortcut.label}
                 </span>
             ))}
-            {/* //* ??? QUESTION: se uso i filtri shortcut e gli ordinamenti
-              in maniera combinata, non riesco a tornare più alla situazione iniziale.
-              è possibiole che io cambi lo stato scorretto quando faccio il SORT? */}
               <span
                 className={`mr-2 badge badge-${filters.sortBy==='id' ? 'success' : 'secondary'}`}
                 onClick={()=>this.applySort('id',filters.sortDir)}>

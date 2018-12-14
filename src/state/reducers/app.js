@@ -4,6 +4,8 @@ import categories from './categories'
 //* importo il nuovo reducer
 import card from './card'
 
+//* !!! NOTE: vedere REDUX LOCAL STORAGE per salvare
+// lo stato dello store all'interno dello stato del browser:
 const initialState = {
     currency: "€",
     categories: {
@@ -19,7 +21,8 @@ const initialState = {
         sortDir: 'ASC'
     },
     //* creo il mio stato
-    //* ??? QUESTION: TODO correggere: sono riuscita a farlo solo aggiungendo "ids" non capisco come mai
+    //* NOTE: potrebbe avere senso mettere le expandedTransactions nelle transactions
+    // ma comunque non è errato cosi, ma è solo una questione di "stile".
     expandedTransactionIds: {
       ids: []
     },

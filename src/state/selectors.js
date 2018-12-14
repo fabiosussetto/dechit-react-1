@@ -4,6 +4,9 @@ export function getVisibleTransactions(state) {
     let newTransactions = transactions
     let filteredState = state
     newTransactions = getSortedTransactions(filteredState);
+    //* !!! NOTE: ERRORE non cambiare lo stato.
+    // quando ri-assegno un oggetto, js non si comporta come fosse un array: riassegna l'oggetto,
+    // quindi state ora è uguale a filteredState. Meglio creare un nuovo array e iniettare quello.
     filteredState.transactions.list = newTransactions
     newTransactions = getFilteredTransactions(filteredState);
     return newTransactions

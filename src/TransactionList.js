@@ -116,7 +116,7 @@ class TransactionList extends Component {
     ))
 
     return (
-      <div>
+      <React.Fragment>
         <TransactionFilter />
         {listElements}
         {transactions.length > 0 && (
@@ -129,7 +129,7 @@ class TransactionList extends Component {
             Add Default
           </button>
         )}
-      </div>
+      </React.Fragment>
     )
   }
 
