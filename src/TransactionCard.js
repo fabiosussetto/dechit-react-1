@@ -34,12 +34,10 @@ const TransactionCard = (props) => {
 
             {/* //* ??? QUESTION: se volessi sovrascrivere/usare/modificare qualcosa che mi viene passato
                 dai vendro (es: scss boostrap), qual è l'approcio migliore? */}
-              {transaction.description &&
-                <button className="btn btn-primary btn-sm mb-2"
-                        onClick={onToggleExpand}>
-                  {expanded ? 'Hide' : 'Show'} edit form
-                </button>
-              }
+              <button className="btn btn-primary btn-sm mb-2"
+                      onClick={onToggleExpand}>
+                {expanded ? 'Hide' : 'Show'} edit form
+              </button>
               {expanded && (
                 <div>
                   {/* //* ??? QUESTION: "transaction" nella form non viene settato correttamente:

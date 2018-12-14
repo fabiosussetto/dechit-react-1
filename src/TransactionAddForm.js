@@ -63,7 +63,7 @@ class TransactionAddForm extends Component {
       case 'amount':
         if( value <= 0 ) {
           error = 'is required'
-        } else if( value > 1000 ) {
+        } else if( value > 500 ) {
           error = 'is too big (max 999)'
         } else {
           status = true
