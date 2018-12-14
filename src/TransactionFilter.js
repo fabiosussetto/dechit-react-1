@@ -64,7 +64,7 @@ class TransactionFilter extends Component {
               type="number"
               value={this.state.amount}
               onChange={this.onAmountChange}
-              className="form-control mr-2 mb-2"
+              className="form-control mr-2 mb-2 c-filter-input"
           />
           <div className="mb-2">
             <button type="submit" className="btn btn-primary mr-2">Filter</button>

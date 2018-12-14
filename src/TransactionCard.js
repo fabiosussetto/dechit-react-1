@@ -4,6 +4,9 @@ import TransactionAddForm from './TransactionAddForm'
 // Es. di "functional component"
 
 const TransactionCard = (props) => {
+
+  // !!! NOTE: vedere propType per validare il tipo delle prop passate
+
     const { transaction, onIncrementAmount, onDecrementAmount, expanded, onToggleExpand, onRemoveTransacion, currency } = props
     return (
         <div className="card p-2 mb-2">
@@ -32,17 +35,12 @@ const TransactionCard = (props) => {
 
               <p><small> {transaction.description} </small></p>
 
-            {/* //* ??? QUESTION: se volessi sovrascrivere/usare/modificare qualcosa che mi viene passato
-                dai vendro (es: scss boostrap), qual è l'approcio migliore? */}
               <button className="btn btn-primary btn-sm mb-2"
                       onClick={onToggleExpand}>
                 {expanded ? 'Hide' : 'Show'} edit form
               </button>
-              {/* //* !!! NOTE: si può usare il React.Fragment se non si vuole il DIV che wrappa tutto */}
               {expanded && (
                 <React.Fragment>
-                  {/* //* ??? QUESTION: "transaction" nella form non viene settato correttamente:
-                    cliccando su incrementAmount non viene agigornato lo stato nella form. */}
                   <TransactionAddForm
                     elemToEdit={transaction}
                   />

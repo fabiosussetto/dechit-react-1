@@ -20,9 +20,6 @@ const initialState = {
         sortBy: 'id',
         sortDir: 'ASC'
     },
-    //* creo il mio stato
-    //* NOTE: potrebbe avere senso mettere le expandedTransactions nelle transactions
-    // ma comunque non è errato cosi, ma è solo una questione di "stile".
     expandedTransactionIds: {
       ids: []
     },

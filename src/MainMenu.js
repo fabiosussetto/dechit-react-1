@@ -10,20 +10,16 @@ function MenuListElem (props) {
   );
 }
 
-class MainMenu extends Component {
-  // !!! NOTE: spostare cone const. e non nello stato perchè non cambiano
-  state = {
-    elems: [
-     //{link: '/', text: 'Home'},
-     {link: '/transactions/new', text: 'New'},
-     {link: '/transactions/list', text: 'List'},
-   ]
-  }
+const menuElems = [
+ //{link: '/', text: 'Home'},
+ {link: '/transactions/new', text: 'New'},
+ {link: '/transactions/list', text: 'List'},
+]
 
+class MainMenu extends Component {
   render(){
     const { listClass, elemsClass, linksClass } = this.props
-    const { elems } = this.state
-    const elem = elems.map((elem,index) => (
+    const menuElem = menuElems.map((elem,index) => (
       <MenuListElem
         key={index}
         elem={elem}
@@ -33,7 +29,7 @@ class MainMenu extends Component {
     ))
     return(
       <ul className={listClass}>
-        {elem}
+        {menuElem}
       </ul>
     )
   }

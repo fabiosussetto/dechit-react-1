@@ -17,9 +17,6 @@ class TransactionAddForm extends Component {
     description: '',
     validation: {
       msg: '',
-      form: false, // NOTE: posso "saltare" questo stato confrontando solo i vari stati dei campi
-      //* ??? QUESTION: è + corretto inizializzare ogni input o creare uno array vuoto
-      // (es. inputs []) e inizializzare lì dentro i vari campi da validare?
       category: {
         status : false,
         error: false
@@ -35,29 +32,22 @@ class TransactionAddForm extends Component {
     }
   }
 
-  //* ??? QUESTION: Ha senso / c'è un modo per validare la form nella sua interezza all'azione di Mount?
-  // es: se i dati che scendono da API non sono valide, andrebbe mostrato
+  //* ??? TODO: se i dati che scendono da API non sono valide, andrebbe mostrato
 
-  // !!! NOTE: Vedere getDerivedStateFromProps()
   // !!! NOTE: vedere optimisticUpdate
 
-// NOTE: vedere "static"
-
-  /*static getDerivedStateFromProps () {
-    const { elemToEdit } = this.props
-    if( elemToEdit !== undefined ) {
-      this.setState({
-        category: elemToEdit.category,
-        amount: elemToEdit.amount,
-        description: elemToEdit.description
-      })
-    }
+  componentWillReceiveProps (props) {
+    this.setInitialState(props);
   }
-  //* NOTE: fare un if prendere valore nuovo e se è diverso da quello dello stato mando un "alert"
-  */
+  //* TODO: se si vuole, provare a fare un if prendere valore nuovo e se è
+  // diverso da quello dello stato mando un "alert"
 
   componentDidMount () {
-    const { elemToEdit } = this.props
+    this.setInitialState(this.props);
+  }
+
+  setInitialState = (props) => {
+    const { elemToEdit } = props
     if( elemToEdit !== undefined ) {
       this.setState({
         category: elemToEdit.category,
@@ -65,7 +55,7 @@ class TransactionAddForm extends Component {
         description: elemToEdit.description
       })
     }
-    //* mettere anche la vali
+    // NOTE: far partire anche la validazione qui!!!
   }
 
   validateNewTransaction(fieldName, value){
@@ -106,6 +96,7 @@ class TransactionAddForm extends Component {
   }
 
   //* ??? QUESTION: c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
+  // ANSWER : si, creare una cartellina (es chiamata helper) ed importare all'occorrenza le funzioni che mi servono
   validateField(name, value) {
     const result = this.validateNewTransaction(name, value);
     this.setState({ validation: {
@@ -119,10 +110,9 @@ class TransactionAddForm extends Component {
                 }, this.validateForm); // callback dopo setState
   }
 
-  validateForm() {
+  validateForm = ()=> {
     const { validation } = this.state;
-    const formValidation = ( validation.category.status && validation.amount.status && validation.description.status )
-    this.setState({validation: { ...validation, form: formValidation } });
+    return ( validation.category.status && validation.amount.status && validation.description.status )
   }
 
   handleInputChange = (event) => {
@@ -233,8 +223,8 @@ class TransactionAddForm extends Component {
                 </div>
                   <div className="col-3 col-sm-auto pr-sm-0 mb-2">
                       <button type="submit"
-                              className={`btn btn-block btn-${validation.form ? 'success': 'secondary' }`}
-                              disabled={!validation.form && 'disabled'}>
+                              className={`btn btn-block btn-${this.validateForm() ? 'success': 'secondary' }`}
+                              disabled={!this.validateForm() && 'disabled'}>
                         Submit
                       </button>
                   </div>
