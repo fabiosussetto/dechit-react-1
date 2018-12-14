@@ -12,3 +12,8 @@ export const store = createStore(
 function showTransaction(state) {
     console.log(state);
 }*/
+
+/*
+    Uso localstorage per sincronozzare los stato dell'applicazione con quello del browser.
+    In questo modo mantengo lo stato, anche se aggiorno la pagina.
+*/

@@ -83,14 +83,18 @@ class App extends Component {
 
     return (
       <Router>
-        <div>
+        <React.Fragment> {/* è un segnaposto, equivale al tag html <template></template> */}
           <Menu />
           <div className="container">
-            <Route exact path="/" render={() => <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />}></Route>
-            <Route exact path="/" render={() => <TransactionList expandedIds={expandedTransactionIds} callbacks={callbacks} />}></Route>
+            <Route exact path="/" render={() => (
+              <React.Fragment>
+                <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />
+                <TransactionList expandedIds={expandedTransactionIds} callbacks={callbacks} />
+              </React.Fragment>
+            )} />
             <Route path="/addTransaction" component={AddTransaction} />
           </div>
-        </div>
+        </React.Fragment>
       </Router>
     )
   }  
