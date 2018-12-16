@@ -12,7 +12,7 @@ export default function transactions(state, action) {
                 list:  [...state.list, ...action.payload.list]
             }
         case 'ADD_TRANSACTION':
-            const newTransaction = { id: Date.now(), ...action.payload }
+            const newTransaction = { id: Date.now(), ...action.payload };
             return {
                 ...state,
                 list: [...state.list, newTransaction]

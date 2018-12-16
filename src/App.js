@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 import TransactionFilter from './TransactionFilter'
 
@@ -83,18 +83,18 @@ class App extends Component {
 
     return (
       <Router>
-        <React.Fragment> {/* è un segnaposto, equivale al tag html <template></template> */}
+        <Fragment> {/* è un segnaposto, equivale al tag html <template></template> */}
           <Menu />
           <div className="container">
             <Route exact path="/" render={() => (
-              <React.Fragment>
+              <Fragment>
                 <TransactionFilter callbacks={callbacks} expandedIds={expandedTransactionIds} transactions={transactions} />
                 <TransactionList expandedIds={expandedTransactionIds} callbacks={callbacks} />
-              </React.Fragment>
+              </Fragment>
             )} />
             <Route path="/addTransaction" component={AddTransaction} />
           </div>
-        </React.Fragment>
+        </Fragment>
       </Router>
     )
   }  

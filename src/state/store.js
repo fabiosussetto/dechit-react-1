@@ -10,10 +10,10 @@ export const store = createStore(
 /*store.subscribe(() => showTransaction(store.getState()));
 
 function showTransaction(state) {
-    console.log(state);
+    console.log(state.transactions.list);
 }*/
 
 /*
-    Uso localstorage per sincronozzare los stato dell'applicazione con quello del browser.
+    Uso localstorage per sincronizzare lo stato dell'applicazione con quello del browser.
     In questo modo mantengo lo stato, anche se aggiorno la pagina.
 */

@@ -4,7 +4,7 @@ import {addTransactionFromForm} from './state/actions';
 import { getFilteredTransactions } from './state/selectors';
 import Modal from './Modal'
 import $ from 'jquery'
-import 'bootstrap/dist/js/bootstrap.js'
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 class AddTransaction extends Component {
     constructor(props) {
@@ -16,30 +16,9 @@ class AddTransaction extends Component {
             amount: 0,
             description: ''
         }
-        /* this.handleChangeCategory = this.handleChangeCategory.bind(this);
-        this.handleChangeAmount = this.handleChangeAmount.bind(this);
-        this.handleChangeDescription = this.handleChangeDescription.bind(this); */
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
-    /* handleChangeCategory = (event) => {
-        this.setState({
-            category: event.target.value
-        });
-    }
-
-    handleChangeAmount = (event) => {
-        this.setState({
-            amount: parseFloat(event.target.value)
-        });
-    }
-
-    handleChangeDescription = (event) => {
-        this.setState({
-            description: event.target.value
-        });
-    } */
 
     handleChange = (event) => {
         this.setState({
