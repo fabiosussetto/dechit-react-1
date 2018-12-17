@@ -1,34 +1,27 @@
 
 export function getVisibleTransactions(state) {
-    const transactions = state.transactions.list
-    let newTransactions = transactions
-    let filteredState = state
-    newTransactions = getSortedTransactions(filteredState);
-    //* !!! NOTE: ERRORE non cambiare lo stato.
-    // quando ri-assegno un oggetto, js non si comporta come fosse un array: riassegna l'oggetto,
-    // quindi state ora è uguale a filteredState. Meglio creare un nuovo array e iniettare quello.
-    filteredState.transactions.list = newTransactions
-    newTransactions = getFilteredTransactions(filteredState);
-    return newTransactions
+    const { filters, transactions } = state
+    const amount = filters.amount
+    const sortDir = filters.sortDir
+    const sortBy = filters.sortBy
+    //* recupero la lista delle transazioni e le salvo in una variabile
+    // che sovrascriverò con la lista filtrata e ordinata.
+    let transactionsList = transactions.list
+    // filtro le transazioni
+    transactionsList = getFilteredTransactions(transactionsList,amount);
+    // ordino le transazioni filtrate
+    transactionsList = getSortedTransactions(transactionsList,sortDir,sortBy);
+    return transactionsList
 }
 
-export function getFilteredTransactions(state) {
-    const transactions = state.transactions.list
-    const filterAmount = state.filters.amount
-    if (!filterAmount) {
-        return transactions
-    }
-    return transactions.filter(transaction => transaction.amount > filterAmount).sort()
+export function getFilteredTransactions(transactions,amount) {
+    if (!amount) return transactions
+    return transactions.filter(transaction => transaction.amount > amount).sort()
 }
 
-export function getSortedTransactions(state) {
-    const transactions = state.transactions.list
-    const sortDir = state.filters.sortDir
-    const sortBy = state.filters.sortBy
+export function getSortedTransactions(transactions,sortDir,sortBy) {
     let compareFunction
-    if( ! sortBy ) {
-        return transactions
-    }
+    if( ! sortBy ) return transactions
     // l'array temporaneo contiene oggetti con posizione e valore di ordinamento
     var mapped = transactions.map((el)=> {
       return { index: el[sortBy], value: el };

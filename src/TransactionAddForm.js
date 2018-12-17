@@ -32,15 +32,9 @@ class TransactionAddForm extends Component {
     }
   }
 
-  //* ??? TODO: se i dati che scendono da API non sono valide, andrebbe mostrato
-
-  // !!! NOTE: vedere optimisticUpdate
-
   componentWillReceiveProps (props) {
     this.setInitialState(props);
   }
-  //* TODO: se si vuole, provare a fare un if prendere valore nuovo e se è
-  // diverso da quello dello stato mando un "alert"
 
   componentDidMount () {
     this.setInitialState(this.props);
@@ -95,8 +89,6 @@ class TransactionAddForm extends Component {
     return { error: error, status: status }
   }
 
-  //* ??? QUESTION: c'è un punto migliore dove mettere le validazioni perchè siano riutilizzabili?
-  // ANSWER : si, creare una cartellina (es chiamata helper) ed importare all'occorrenza le funzioni che mi servono
   validateField(name, value) {
     const result = this.validateNewTransaction(name, value);
     this.setState({ validation: {
@@ -152,7 +144,6 @@ class TransactionAddForm extends Component {
     // resetta lo stato e cambia il messaggio
     this.setState({
           ...this.state,
-            //* ??? QUESTION: devo resettare gli input uno ad uno o c'è un modo migliore?
             category: category,
             amount: amount,
             description: description,

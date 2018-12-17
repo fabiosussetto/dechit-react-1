@@ -5,8 +5,6 @@ import TransactionAddForm from './TransactionAddForm'
 
 const TransactionCard = (props) => {
 
-  // !!! NOTE: vedere propType per validare il tipo delle prop passate
-
     const { transaction, onIncrementAmount, onDecrementAmount, expanded, onToggleExpand, onRemoveTransacion, currency } = props
     return (
         <div className="card p-2 mb-2">

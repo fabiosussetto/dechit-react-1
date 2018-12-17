@@ -4,8 +4,6 @@ import categories from './categories'
 //* importo il nuovo reducer
 import card from './card'
 
-//* !!! NOTE: vedere REDUX LOCAL STORAGE per salvare
-// lo stato dello store all'interno dello stato del browser:
 const initialState = {
     currency: "€",
     categories: {

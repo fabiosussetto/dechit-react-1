@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
-
 import { incrementAmount, decrementAmount, removeTransacion, editTransaction } from './state/actions'
 import { getVisibleTransactions } from './state/selectors'
-
+// import PropTypes from 'prop-types';   // !!! NOTE: vedere propType per validare il tipo delle prop passate
 
 class TransactionList extends Component {
 
@@ -55,7 +54,8 @@ class TransactionList extends Component {
     //* se loading è true, ritorno solo il loader stoppando così l'esecuzione
     if (loading) {
       return (
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 60 }}>
+        <div className="d-flex justify-content-center align-items-center"
+             style={{ minHeight: 60 }}>
           Loading...
         </div>
       )
@@ -87,10 +87,10 @@ class TransactionList extends Component {
                                                  value: "unknown"
                                                }]
        //* estraggo il primo (e unico) elemento
-       //* ??? QUESTION: c'è un modo migliore di fare rispetto a shift?
        const current = curObj.shift();
 
-       //* applico il risultato alla transaction corrente, creando la property "label, prima inesistente
+       //* applico il risultato alla transaction corrente,
+       // creando la property "label, prima inesistente
        return transaction = {
          ...transaction,
          category: current.value,
@@ -134,7 +134,6 @@ class TransactionList extends Component {
   }
 
 }
-
 
 const mapStateToProps = (state) => {
   return {
