@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 // ROUTER
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { fetchTransactions, fetchCategoriesList } from './state/actions'
+import { fetchTransactions, fetchCategoriesList, fetchJobsList } from './state/actions'
 
 // STYLE
 import 'bootstrap/dist/css/bootstrap.css'
@@ -13,6 +13,7 @@ import Home from './Home'
 import Header from './Header'
 import TransactionAddForm from './TransactionAddForm'
 import TransactionList from './TransactionList'
+import JobsList from './JobsList'
 
 // COMPONENTS
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
   componentDidMount () {
     this.props.dispatch(fetchTransactions())
     this.props.dispatch(fetchCategoriesList())
+    this.props.dispatch(fetchJobsList())
   }
 
   //* elimino le funzioni callback che passavo a transactionList e le  metto direttamente dentro
@@ -48,6 +50,7 @@ class App extends Component {
               <Route path="/transactions/new" component={TransactionAddForm} />
               <Route path="/transactions/list"
                      render={props => <TransactionList {...props} callbacks={callbacks} />} />
+                   <Route path="/jobs" component={JobsList} />
             </div>
 
           </div>

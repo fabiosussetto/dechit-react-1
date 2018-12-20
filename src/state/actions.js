@@ -150,6 +150,25 @@ export function fetchCategoriesList() {
   };
 }
 
+export function fetchJobsList() {
+  const apiUrl = 'http://www.stagingarea.it/dechit/wp-json/wp/v2/posts';
+  return (dispatch, getState) => {
+    axios.get(apiUrl).then((resp) => {
+              dispatch({
+                  type: 'SET_JOBS_LIST',
+                  jobs: resp.data
+              });
+              console.log('fetchJobsList done');
+          }, error => {
+              dispatch({
+                  type: 'SET_JOBS_LIST',
+                  jobs: {error:'ERROR'}
+              });
+              console.log('fetchJobsList error');
+          })
+  };
+}
+
 export function addNewTransaction(state) {
   return {
     type: 'ADD_TRANSACTION',

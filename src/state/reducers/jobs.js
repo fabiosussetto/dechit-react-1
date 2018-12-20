@@ -1,11 +1,11 @@
-export default function categories(state, action) {
+export default function jobs(state, action) {
 
     switch (action.type) {
-        case 'SET_CATEGORIES_LIST':
+        case 'SET_JOBS_LIST':
             return {
                 ...state,
                 loading: false,
-                list:  action.categories
+                list:  action.jobs
             }
         default:
             return state;

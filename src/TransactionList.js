@@ -4,7 +4,6 @@ import TransactionCard from './TransactionCard'
 import TransactionFilter from './TransactionFilter'
 import { incrementAmount, decrementAmount, removeTransacion, editTransaction } from './state/actions'
 import { getVisibleTransactions } from './state/selectors'
-// import PropTypes from 'prop-types';   // !!! NOTE: vedere propType per validare il tipo delle prop passate
 
 class TransactionList extends Component {
 
@@ -64,7 +63,7 @@ class TransactionList extends Component {
     //* Se voglio cambiare il titolo della transazione con il nome della lista titoli
     // e non col valore come è scritto nel json, devo mappare le mie transazioni
     const transactionsTransformed = transactions.map(function(transaction) {
-      // finto array  sostituire con le categorie da api
+      // TODO ERROR: sostituire con le categorie da api
       const catsObjs = [ {
               name: "Books",
               value: "books"

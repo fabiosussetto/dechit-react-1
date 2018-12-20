@@ -1,5 +1,6 @@
 import React from 'react'
 import TransactionAddForm from './TransactionAddForm'
+// import PropTypes from 'prop-types';   // !!! NOTE: vedere propType per validare il tipo delle prop passate
 
 // Es. di "functional component"
 
@@ -50,5 +51,10 @@ const TransactionCard = (props) => {
         </div>
     )
 }
+
+// esempio di propTypes
+//TransactionListItem.propTypes = {
+    //transaction: PropTypes.object.isRequired
+//};
 
 export default TransactionCard

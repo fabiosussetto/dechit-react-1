@@ -14,6 +14,7 @@ const menuElems = [
  //{link: '/', text: 'Home'},
  {link: '/transactions/new', text: 'New'},
  {link: '/transactions/list', text: 'List'},
+ {link: '/jobs', text: 'JOBS'},
 ]
 
 class MainMenu extends Component {
