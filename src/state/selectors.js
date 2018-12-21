@@ -5,5 +5,5 @@ export function getFilteredTransactions(state) {
     if (!filterAmount) {
         return transactions;
     }
-    return transactions.filter(transaction => transaction.amount > filterAmount);
+    return transactions.filter(transaction => transaction.amount >= filterAmount);
 }

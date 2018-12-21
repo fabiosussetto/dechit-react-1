@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="card p-2 mb-2"
+>
+  <div
+    className="d-flex"
+  >
+    <div>
+      <p
+        className="card-text"
+      >
+        Amount: 
+        100
+      </p>
+    </div>
+    <div
+      className="ml-auto"
+    >
+      <button
+        className="btn btn-success"
+      >
+        Add 10
+      </button>
+      <button
+        className="btn btn-secondary"
+      >
+        Expand
+      </button>
+      <button
+        className="btn btn-danger"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+</div>
+`;

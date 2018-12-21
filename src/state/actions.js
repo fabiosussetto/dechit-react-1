@@ -9,9 +9,9 @@ export function setFilterAmount(amount) {
     }
 }
 
-export function fetchTransactions() {
+export function fetchTransactions(axios) {
     return (dispatch, getState) => {
-        axios.get('http://www.martapetrella.com/dechit-corso.json')
+        axios.get('http://www.martapetrella.com/dechit-corso.php')
             .then((resp) => {
                 dispatch({
                     type: 'SET_TRANSACTIONS',
