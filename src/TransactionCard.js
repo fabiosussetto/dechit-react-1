@@ -25,10 +25,17 @@ class TransactionCard extends Component {
       );
     }
   }
+  
+  shouldComponentUpdate(nextProps) {
+    return nextProps.transaction !== this.props.transaction
+  }
 
   render() {
     const { transaction, currency, onIncrementAmount } = this.props
     const { visibility } = this.state
+
+    console.log('TransactionCard render called')
+
     return (
       <div className="card p-2 mb-2">
         <div className="d-flex">
